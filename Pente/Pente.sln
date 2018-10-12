@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28010.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pente", "Pente\Pente.csproj", "{EECC3AA0-7177-4BC8-98FF-FFA1465A2EC0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PenteTests", "PenteTests\PenteTests.csproj", "{0641A509-EC7C-4B0D-A6EA-31948769CCA3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{EECC3AA0-7177-4BC8-98FF-FFA1465A2EC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EECC3AA0-7177-4BC8-98FF-FFA1465A2EC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EECC3AA0-7177-4BC8-98FF-FFA1465A2EC0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0641A509-EC7C-4B0D-A6EA-31948769CCA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0641A509-EC7C-4B0D-A6EA-31948769CCA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0641A509-EC7C-4B0D-A6EA-31948769CCA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0641A509-EC7C-4B0D-A6EA-31948769CCA3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
