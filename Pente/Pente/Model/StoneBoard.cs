@@ -10,8 +10,8 @@ namespace Pente
     public class StoneBoard
     {
         private Stone[,] board;
-        private int rows = 20;
-        private int columns = 20;
+        private int rows = 19;
+        private int columns = 19;
         
         //puts Stones in the 2D array
         public StoneBoard()

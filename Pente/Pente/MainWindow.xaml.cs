@@ -48,11 +48,11 @@ namespace Pente
         //Creates the Green squares you see
         private void SetGameSquares()
         {
-            UniformGrid squares = new UniformGrid { Rows = 19, Columns = 19, Margin = new Thickness(25) };
+            UniformGrid squares = new UniformGrid { Rows = 18, Columns = 18, Margin = new Thickness(25) };
             SolidColorBrush color = new SolidColorBrush(Colors.Green);
             Rectangle square;
 
-            int numberOfSquares = 361;
+            int numberOfSquares = squares.Rows * squares.Columns;
 
             for (int i = 0; i < numberOfSquares; i++)
             {
@@ -72,12 +72,12 @@ namespace Pente
         //Creats a board to set the stones on.
         private void SetUpStoneBoard()
         {
-            UniformGrid stoneGrid = new UniformGrid { Rows = 20, Columns = 20, Margin = new Thickness(11) };
+            UniformGrid stoneGrid = new UniformGrid { Rows = 19, Columns = 19, Margin = new Thickness(11) };
             StoneSpace stoneSpace;
             Binding imageBinding;
 
-            int stoneRows = 20;
-            int stoneColumns = 20;
+            int stoneRows = stoneGrid.Rows;
+            int stoneColumns = stoneGrid.Columns;
             
             for (int i = 0; i < stoneRows; i++)
             {
