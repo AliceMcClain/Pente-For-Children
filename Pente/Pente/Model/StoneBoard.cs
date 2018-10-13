@@ -12,10 +12,10 @@ namespace Pente
         private Stone[,] board;
         private int rows = 20;
         private int columns = 20;
-
+        
+        //puts Stones in the 2D array
         public StoneBoard()
         {
-            //Adds placholder stones to board
             board = new Stone[rows, columns];
             for (int i = 0; i < rows; i++)
             {

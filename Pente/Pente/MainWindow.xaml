@@ -5,8 +5,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pente"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="600">
-    <Grid Name="MainGrid">
-
-    </Grid>
+        Title="MainWindow" Height="600" Width="600" ResizeMode="CanMinimize">
+    <Grid Name="MainGrid"/>
 </Window>

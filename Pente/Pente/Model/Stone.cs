@@ -12,15 +12,15 @@ namespace Pente
     {
         BLUE, YELLOW
     }
+
     public class Stone : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
         private BitmapImage _image;
         private StoneColor _stoneColor;
 
         private BitmapImage blueStone = new BitmapImage(new Uri("../Resource/BlueCircle.png", UriKind.Relative));
         private BitmapImage yellowStone = new BitmapImage(new Uri("../Resource/YellowCircle.png", UriKind.Relative));
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public BitmapImage Image
         {
@@ -47,7 +47,5 @@ namespace Pente
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("StoneColor"));
             }
         }
-
-
     }
 }

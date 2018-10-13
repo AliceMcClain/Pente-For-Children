@@ -25,6 +25,7 @@ namespace Pente
             AddRandomPieces();
         }
 
+        //Temporary method just to show that we can add stones to the board
         private void AddRandomPieces()
         {
             board[0, 0].StoneColor = StoneColor.BLUE;
@@ -44,6 +45,7 @@ namespace Pente
 
         }
 
+        //Creates the Green squares you see
         private void SetGameSquares()
         {
             UniformGrid squares = new UniformGrid { Rows = 19, Columns = 19, Margin = new Thickness(25) };
@@ -67,6 +69,7 @@ namespace Pente
             MainGrid.Children.Add(squares);
         }
 
+        //Creats a board to set the stones on.
         private void SetUpStoneBoard()
         {
             UniformGrid stoneGrid = new UniformGrid { Rows = 20, Columns = 20, Margin = new Thickness(11) };
