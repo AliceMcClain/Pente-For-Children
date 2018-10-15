@@ -9,7 +9,7 @@ namespace PenteLib.Controllers
 {
     public static class PenteController
     {
-        public static Pente game;
+        public static Pente game = new Pente();
         private static bool ValidateMove(int row, int column)
         {
             throw new NotImplementedException();
