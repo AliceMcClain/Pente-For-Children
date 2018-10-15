@@ -104,8 +104,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resource\BlueCircle.png" />
-    <Resource Include="Resource\YellowCircle.png" />
+    <Folder Include="Resource\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

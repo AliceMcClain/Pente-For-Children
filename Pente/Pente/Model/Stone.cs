@@ -10,7 +10,7 @@ namespace Pente
 {
     public enum StoneColor
     {
-        BLUE, YELLOW
+        BLACK, WHITE
     }
 
     public class Stone : INotifyPropertyChanged
