@@ -5,6 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pente"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="600" ResizeMode="CanMinimize">
-    <Grid Name="MainGrid"/>
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Button Content="Single Player" HorizontalAlignment="Left" Margin="275,160,0,0" VerticalAlignment="Top" Width="250" FontSize="30" Click="Single_Click"/>
+        <Button Content="Multi Player" HorizontalAlignment="Left" Margin="275,209,0,0" VerticalAlignment="Top" Width="250" FontSize="30" Click="Multi_Click"/>
+
+    </Grid>
 </Window>

@@ -14,7 +14,7 @@ namespace PenteLib.Models
 
     public enum PieceColor
     {
-        Blank,
+        Empty,
         White,
         Black
     }

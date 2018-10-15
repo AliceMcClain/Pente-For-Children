@@ -55,11 +55,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Model\Stone.cs" />
     <Compile Include="StoneSpace.xaml.cs">
       <DependentUpon>StoneSpace.xaml</DependentUpon>
     </Compile>
-    <Page Include="MainWindow.xaml">
+    <Page Include="GameWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -68,10 +71,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Model\StoneBoard.cs" />
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="GameWindow.xaml.cs">
+      <DependentUpon>GameWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="StoneSpace.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -106,6 +113,12 @@
   <ItemGroup>
     <Resource Include="Resource\BlueCircle.png" />
     <Resource Include="Resource\YellowCircle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PenteLib\PenteLib.csproj">
+      <Project>{d06b749a-adc5-42a1-95ba-aeb886697b11}</Project>
+      <Name>PenteLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

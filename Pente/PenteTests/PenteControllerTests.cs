@@ -18,8 +18,10 @@ namespace PenteTests
         {
             int row = 1;
             int colum = 1;
+            PenteController.StartGame();
+
             PieceColor actual = PenteController.game.GetPieceAt(row, colum);
-            PieceColor expected = PieceColor.Blank;
+            PieceColor expected = PieceColor.Empty;
 
             Assert.AreEqual(expected, actual);
         }
@@ -29,6 +31,8 @@ namespace PenteTests
         {
             int row = 1;
             int column = 1;
+
+            PenteController.StartGame();
             PenteController.TakeTurn(row, column);
 
             PieceColor expected = PieceColor.Black;

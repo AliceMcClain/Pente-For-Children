@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PenteLib.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -8,19 +9,14 @@ using System.Windows.Media.Imaging;
 
 namespace Pente
 {
-    public enum StoneColor
-    {
-        BLUE, YELLOW
-    }
-
     public class Stone : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private BitmapImage _image;
-        private StoneColor _stoneColor;
+        private PieceColor _stoneColor;
 
-        private BitmapImage blueStone = new BitmapImage(new Uri("../Resource/BlueCircle.png", UriKind.Relative));
-        private BitmapImage yellowStone = new BitmapImage(new Uri("../Resource/YellowCircle.png", UriKind.Relative));
+        private static BitmapImage blueStone = new BitmapImage(new Uri("../Resource/BlueCircle.png", UriKind.Relative));
+        private static BitmapImage yellowStone = new BitmapImage(new Uri("../Resource/YellowCircle.png", UriKind.Relative));
 
         public BitmapImage Image
         {
@@ -32,17 +28,25 @@ namespace Pente
             }
         }
 
-        public StoneColor StoneColor
+        public PieceColor PieceColor
         {
             get => _stoneColor;
             set
             {
                 _stoneColor = value;
 
-                if (value == StoneColor.BLUE)
+                if (value == PieceColor.Black)
+                {
                     Image = blueStone;
-                else
+                }
+                else if (value == PieceColor.White)
+                {
                     Image = yellowStone;
+                }
+                else
+                {
+                    Image = new BitmapImage();
+                }
 
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("StoneColor"));
             }
