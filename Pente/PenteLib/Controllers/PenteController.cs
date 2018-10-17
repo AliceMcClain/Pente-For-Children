@@ -11,6 +11,8 @@ namespace PenteLib.Controllers
     {
         public static Pente game;
 
+        public static int boardSize = 19;
+
         public static void StartGame(PlayMode playMode = PlayMode.SinglePlayer)
         {
             game = new Pente(playMode);
@@ -19,7 +21,7 @@ namespace PenteLib.Controllers
         private static bool ValidateMove(int row, int column)
         {
             bool result = false;
-            if(row >= 0 && row < 19 && column >= 0 && column < 19)
+            if(row >= 0 && row < boardSize && column >= 0 && column < boardSize)
             {
                 if(game.GetPieceAt(row, column) == PieceColor.Empty)
                 {
@@ -35,18 +37,27 @@ namespace PenteLib.Controllers
 
             game.SetPieceAt(row, column, color);
 
-            game.isFirstPlayersTurn ^= true;
+            // Alternates player turn
+            game.isFirstPlayersTurn = !game.isFirstPlayersTurn;
+
             game.IsGameOver = CheckForWinner();
         }
 
-        public static void TakeTurn(int row, int column)
+        public static bool TakeTurn(int row, int column)
         {
             bool turnIsValid = ValidateMove(row, column);
 
             if (turnIsValid)
             {
                 ProcessMove(row, column);
+
+                // If you are vs AI, the game isn't over, and it is the AI's turn: take the AI's Turn
+                if(game.PlayMode == PlayMode.SinglePlayer && !game.IsGameOver && !game.isFirstPlayersTurn)
+                {
+                    AITurn();
+                }
             }
+            return turnIsValid;
         }
 
         private static bool CheckForWinner()
@@ -54,6 +65,21 @@ namespace PenteLib.Controllers
             return false;
         }
 
-            
+        private static void AITurn()
+        {
+            Random rand = new Random();
+
+            int rowChoice;
+            int colChoice;
+
+            bool turnIsValid;
+            do
+            {
+                rowChoice = rand.Next(boardSize);
+                colChoice = rand.Next(boardSize);
+
+                turnIsValid = TakeTurn(rowChoice, colChoice);
+            } while (!turnIsValid);
+        }
     }
 }
