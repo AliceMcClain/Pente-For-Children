@@ -34,6 +34,8 @@ namespace PenteLib.Controllers
             PieceColor color = game.isFirstPlayersTurn ? PieceColor.Black : PieceColor.White;
 
             game.SetPieceAt(row, column, color);
+
+            game.isFirstPlayersTurn ^= true;
         }
 
         public static void TakeTurn(int row, int column)

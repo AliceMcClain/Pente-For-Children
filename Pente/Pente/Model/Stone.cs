@@ -17,6 +17,7 @@ namespace Pente
 
         private static BitmapImage blueStone = new BitmapImage(new Uri("../Resource/BlueCircle.png", UriKind.Relative));
         private static BitmapImage yellowStone = new BitmapImage(new Uri("../Resource/YellowCircle.png", UriKind.Relative));
+        private static BitmapImage emptyStone = new BitmapImage(new Uri("../Resource/EmptyCircle.png", UriKind.Relative));
 
         public BitmapImage Image
         {
@@ -45,7 +46,7 @@ namespace Pente
                 }
                 else
                 {
-                    Image = new BitmapImage();
+                    Image = emptyStone;
                 }
 
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("StoneColor"));
