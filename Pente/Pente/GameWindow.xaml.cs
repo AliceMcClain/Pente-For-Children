@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
@@ -17,6 +18,7 @@ namespace Pente
     public partial class GameWindow : Window
     {
         StoneBoard board;
+        UniformGrid stoneGrid;
 
         public GameWindow(PlayMode playMode = PlayMode.SinglePlayer)
         {
@@ -25,9 +27,11 @@ namespace Pente
             PenteController.StartGame(playMode);
             board = new StoneBoard();
 
+            
             SetGameSquares();
             SetUpStoneBoard();
-            AddRandomPieces();
+            UpdateBoard();
+           // AddRandomPieces();
 
         }
 
@@ -77,7 +81,7 @@ namespace Pente
         //Creats a board to set the stones on.
         private void SetUpStoneBoard()
         {
-            UniformGrid stoneGrid = new UniformGrid { Rows = 19, Columns = 19, Margin = new Thickness(11) };
+            stoneGrid = new UniformGrid { Rows = 19, Columns = 19, Margin = new Thickness(11) };
             StoneSpace stoneSpace;
             Binding imageBinding;
 
@@ -100,6 +104,9 @@ namespace Pente
                     };
 
                     stoneSpace.CircleImage.SetBinding(Image.SourceProperty, imageBinding);
+
+                    stoneSpace.MouseDown += BoardPiece_Click;
+
                     stoneGrid.Children.Add(stoneSpace);
                 }
             }
@@ -118,5 +125,111 @@ namespace Pente
                 }
             }
         }
+
+        private void BoardPiece_Click(object sender, MouseButtonEventArgs e)
+        {
+            int columns = stoneGrid.Columns;
+            int index = stoneGrid.Children.IndexOf((StoneSpace)sender);
+
+            int row = index / columns;
+            int col = index % columns;
+
+            PenteController.TakeTurn(row, col);
+            UpdateBoard();
+        }
+
+        #region Player name editting
+        private void Player1Name_LostFocus(object sender, RoutedEventArgs e)
+        {
+            //Checks if textbox is empty
+            if (tbxPlayer1Name.Text.Length != 0)
+            {
+                lblPlayer1Name.Content = tbxPlayer1Name.Text;
+            }
+            else
+            {
+                tbxPlayer1Name.Text = "Player 1";
+            }
+            //Sets player 1 text box invisible and unusable after losing focus
+            tbxPlayer1Name.IsEnabled = false;
+            tbxPlayer1Name.Visibility = Visibility.Hidden;
+            tbxPlayer1Name.Focusable = false;
+        }
+
+        private void Player1Name_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                //Checks if textbox is empty
+                if (tbxPlayer1Name.Text.Length != 0)
+                {
+                    lblPlayer1Name.Content = tbxPlayer1Name.Text;
+                }
+                else
+                {
+                    tbxPlayer1Name.Text = "Player 1";
+                }
+                //Sets player 1 text box invisible and unusable after clicking enter
+                tbxPlayer1Name.IsEnabled = false;
+                tbxPlayer1Name.Visibility = Visibility.Hidden;
+                tbxPlayer1Name.Focusable = true;
+            }
+        }
+
+        private void Player2Name_LostFocus(object sender, RoutedEventArgs e)
+        {
+            //Checks if textbox is empty
+            if (tbxPlayer2Name.Text.Length != 0)
+            {
+                lblPlayer2Name.Content = tbxPlayer2Name.Text;
+            }
+            else
+            {
+                tbxPlayer2Name.Text = "Player 2";
+            }
+            //Sets player 2 text box invisible and unusable after losing focus
+            tbxPlayer2Name.IsEnabled = false;
+            tbxPlayer2Name.Visibility = Visibility.Hidden;
+            tbxPlayer2Name.Focusable = false;
+        }
+
+        private void Player2Name_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                //Checks if textbox is empty
+                if (tbxPlayer2Name.Text.Length != 0)
+                {
+                    lblPlayer2Name.Content = tbxPlayer2Name.Text;
+                }
+                else
+                {
+                    tbxPlayer2Name.Text = "Player 2";
+                }
+                //Sets player 2 text box invisible and unusable after clicking enter
+                tbxPlayer2Name.IsEnabled = false;
+                tbxPlayer2Name.Visibility = Visibility.Hidden;
+                tbxPlayer2Name.Focusable = false;
+            }
+        }
+
+        private void Player2NameEdit_Click(object sender, MouseButtonEventArgs e)
+        {
+            //When pencil is clicked textbox becomes available 
+            tbxPlayer2Name.IsEnabled = true;
+            tbxPlayer2Name.Visibility = Visibility.Visible;
+            tbxPlayer2Name.Focusable = true;
+            tbxPlayer2Name.Focus();
+        }
+
+        private void Player1NameEdit_Click(object sender, MouseButtonEventArgs e)
+        {
+            //When pencil is clicked textbox becomes available 
+            tbxPlayer1Name.IsEnabled = true;
+            tbxPlayer1Name.Visibility = Visibility.Visible;
+            tbxPlayer1Name.Focusable = true;
+            tbxPlayer1Name.Focus();
+        }
+        #endregion
     }
 }

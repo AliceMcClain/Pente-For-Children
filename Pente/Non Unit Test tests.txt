@@ -1,1 +1,6 @@
-On start up, we see a 19x19 pente board with a piece on each playable spot
+On start up, we see a 19x19 pente board with a piece on each playable spot - Passed
+The main menu will display two buttons
+   When clicking on the first button the screen changes to the game board in a single player game
+   When clicking on the second button the screen changes to the game board in a multi player game
+
+The game board will show a 19x19 game board, that when a spot is clicked on, a piece appears there
