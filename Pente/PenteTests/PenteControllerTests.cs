@@ -103,7 +103,7 @@ namespace PenteTests
         }
 
         [TestMethod]
-        public void CheckForWinnerTest()
+        public void FirstPlayerMove_WinningMoveHorizontal_GameOver()
         {
             PenteController.StartGame();
 
@@ -113,7 +113,86 @@ namespace PenteTests
             PenteController.game.SetPieceAt(0, 2, PieceColor.Black);
             PenteController.game.SetPieceAt(0, 3, PieceColor.Black);
 
+            //Make winning move
             PenteController.TakeTurn(0, 4);
+
+            bool expected = true;
+            bool actual = PenteController.game.IsGameOver;
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void FirstPlayerMove_WinningMoveDiagonal_GameOver()
+        {
+            //Set up win
+            PenteController.game.SetPieceAt(0, 0, PieceColor.Black);
+            PenteController.game.SetPieceAt(1, 1, PieceColor.Black);
+            PenteController.game.SetPieceAt(2, 2, PieceColor.Black);
+            PenteController.game.SetPieceAt(3, 3, PieceColor.Black);
+
+            //Make winning move
+            PenteController.TakeTurn(4, 4);
+
+            bool expected = true;
+            bool actual = PenteController.game.IsGameOver;
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void FirstPlayerMove_WinningMoveVertical_GameOver()
+        {
+            //set up win
+            PenteController.game.SetPieceAt(0, 0, PieceColor.Black);
+            PenteController.game.SetPieceAt(1, 0, PieceColor.Black);
+            PenteController.game.SetPieceAt(2, 0, PieceColor.Black);
+            PenteController.game.SetPieceAt(3, 0, PieceColor.Black);
+
+            //Make winning move
+            PenteController.TakeTurn(4, 0);
+
+            bool expected = true;
+            bool actual = PenteController.game.IsGameOver;
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void FirstPlayerMakes5thCapture_GameOver()
+        {
+            //Set up
+            PenteController.StartGame();
+            PenteController.game.FirstPlayerCaptures = 4;
+
+            PenteController.game.SetPieceAt(0, 0, PieceColor.Black);
+            PenteController.game.SetPieceAt(0, 1, PieceColor.White);
+            PenteController.game.SetPieceAt(0, 2, PieceColor.White);
+
+            //Capture
+            PenteController.TakeTurn(0, 3);
+
+            bool expected = true;
+            bool actual = PenteController.game.IsGameOver;
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void SecondPlayerMakes5thCapture_GameOver()
+        {
+            //Set up
+            PenteController.StartGame();
+            PenteController.game.SecondPlayerCaptures = 4;
+
+            PenteController.game.SetPieceAt(0, 0, PieceColor.White);
+            PenteController.game.SetPieceAt(0, 1, PieceColor.Black);
+            PenteController.game.SetPieceAt(0, 2, PieceColor.Black);
+            PenteController.game.isFirstPlayersTurn = false;
+
+            //Capture
+            PenteController.TakeTurn(0, 3);
+
             bool expected = true;
             bool actual = PenteController.game.IsGameOver;
 
