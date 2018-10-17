@@ -26,23 +26,42 @@ namespace PenteTests
         }
 
         [TestMethod]
-        public void FirstPlayerTakeTurnTest()
+        public void FirstPlayerTakesTurn()
         {
             int row = 1;
             int column = 1;
 
             PenteController.StartGame();
+
             PenteController.TakeTurn(row, column);
 
-            PieceColor expected = PieceColor.Black;
             PieceColor actual = PenteController.game.GetPieceAt(row, column);
+            PieceColor expected = PieceColor.Black;
 
             Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
-        public void ChangePlayerTurnTest()
+        public void SecondPlayerTakesTurn()
         {
+            int row = 5;
+            int column = 5;
+
+            PenteController.StartGame();
+
+            PenteController.TakeTurn(1, 1);
+            PenteController.TakeTurn(row, column);
+
+            PieceColor actual = PenteController.game.GetPieceAt(row, column);
+            PieceColor expected = PieceColor.White;
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void ChangePlayerTurnAfterTakingATurn()
+        {
+            PenteController.StartGame();
             var expected = !PenteController.game.isFirstPlayersTurn;
             bool actual;
 
@@ -55,12 +74,12 @@ namespace PenteTests
         [TestMethod]
         public void SetPieceTest()
         {
+            PenteController.StartGame();
             PenteController.game.SetPieceAt(0, 1, PieceColor.Black);
             PieceColor expected = PieceColor.Black;
             PieceColor actual = PenteController.game.Board[0, 1];
 
             Assert.AreEqual(expected, actual);
-
         }
         [TestMethod]
         public void CaptureTest()
@@ -99,8 +118,6 @@ namespace PenteTests
             bool actual = PenteController.game.IsGameOver;
 
             Assert.AreEqual(expected, actual);
-
-
         }
     }
 }
