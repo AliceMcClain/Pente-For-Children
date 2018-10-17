@@ -1,6 +1,30 @@
-On start up, we see a 19x19 pente board with a piece on each playable spot - Passed
-The main menu will display two buttons
-   When clicking on the first button the screen changes to the game board in a single player game
-   When clicking on the second button the screen changes to the game board in a multi player game
+Testing for: To see a 19x19 board when the application is started.
+Steps to Recreate: Start the application, look at the board to see if there is a 19x19 board.
+Pass/Fail: Pass
 
-The game board will show a 19x19 game board, that when a spot is clicked on, a piece appears there
+Testing for: To see a board with playable spots when the application is started.
+Steps to Recreate: Start the application, look at the board to see if there are stones on the board.
+Pass/Fail: Pass
+
+Testing for: Main Menu with two play modes
+Steps to Recreate: Start the application, look to see if there is a main menu with two play modes
+Pass/Fail: Pass
+
+Testing for: Single player game starts a single player game
+Steps to Recreate: Start the application, click on Single player, see if a single player games starts
+Pass/Fail:
+
+Testing for: Multi player game starts a multi player game
+Steps to Recreate: Start the application, click on multi player, see if a multi player games starts
+Pass/Fail:
+
+Testing for: Clickable empty spots
+Steps to Recreate: Start a game, click on a spot where there is not a piece and see if a piece appears there
+Pass/Fail:
+
+Testing for: Non clickable spots where pieces are
+Steps to Recreate: Start a game, click on a spot where there is a piece and see if a piece appears there
+Pass/Fail:
+
+
+
