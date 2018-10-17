@@ -36,6 +36,7 @@ namespace PenteLib.Controllers
             game.SetPieceAt(row, column, color);
 
             game.isFirstPlayersTurn ^= true;
+            game.IsGameOver = CheckForWinner();
         }
 
         public static void TakeTurn(int row, int column)
@@ -47,5 +48,11 @@ namespace PenteLib.Controllers
                 ProcessMove(row, column);
             }
         }
+
+        private static bool CheckForWinner()
+        {
+            return false;
+        }
+            
     }
 }
