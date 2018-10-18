@@ -65,6 +65,11 @@ namespace PenteLib.Controllers
             return false;
         }
 
+        //private static int NumInARow()
+        //{
+
+        //}
+
         private static void AITurn()
         {
             Random rand = new Random();

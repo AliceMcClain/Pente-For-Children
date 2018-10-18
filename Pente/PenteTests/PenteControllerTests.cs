@@ -17,7 +17,7 @@ namespace PenteTests
         {
             int row = 1;
             int colum = 1;
-            PenteController.StartGame();
+            PenteController.StartGame(PlayMode.MultiPlayer);
 
             PieceColor actual = PenteController.game.GetPieceAt(row, colum);
             PieceColor expected = PieceColor.Empty;
@@ -31,7 +31,7 @@ namespace PenteTests
             int row = 1;
             int column = 1;
 
-            PenteController.StartGame();
+            PenteController.StartGame(PlayMode.MultiPlayer);
 
             PenteController.TakeTurn(row, column);
 
@@ -47,7 +47,7 @@ namespace PenteTests
             int row = 5;
             int column = 5;
 
-            PenteController.StartGame();
+            PenteController.StartGame(PlayMode.MultiPlayer);
 
             PenteController.TakeTurn(1, 1);
             PenteController.TakeTurn(row, column);
@@ -85,7 +85,7 @@ namespace PenteTests
         [TestMethod]
         public void CaptureTest()
         {
-            PenteController.StartGame();
+            PenteController.StartGame(PlayMode.MultiPlayer);
             //set up capture
             PenteController.TakeTurn(0, 1);
             PenteController.TakeTurn(0, 2);
@@ -106,7 +106,7 @@ namespace PenteTests
         [TestMethod]
         public void FirstPlayerMove_WinningMoveHorizontal_GameOver()
         {
-            PenteController.StartGame();
+            PenteController.StartGame(PlayMode.MultiPlayer);
 
             //set up win
             PenteController.game.SetPieceAt(0, 0, PieceColor.Black);
@@ -126,6 +126,8 @@ namespace PenteTests
         [TestMethod]
         public void FirstPlayerMove_WinningMoveDiagonal_GameOver()
         {
+            PenteController.StartGame(PlayMode.MultiPlayer);
+
             //Set up win
             PenteController.game.SetPieceAt(0, 0, PieceColor.Black);
             PenteController.game.SetPieceAt(1, 1, PieceColor.Black);
@@ -144,6 +146,8 @@ namespace PenteTests
         [TestMethod]
         public void FirstPlayerMove_WinningMoveVertical_GameOver()
         {
+            PenteController.StartGame(PlayMode.MultiPlayer);
+
             //set up win
             PenteController.game.SetPieceAt(0, 0, PieceColor.Black);
             PenteController.game.SetPieceAt(1, 0, PieceColor.Black);
@@ -163,7 +167,7 @@ namespace PenteTests
         public void FirstPlayerMakes5thCapture_GameOver()
         {
             //Set up
-            PenteController.StartGame();
+            PenteController.StartGame(PlayMode.MultiPlayer);
             PenteController.game.FirstPlayerCaptures = 4;
 
             PenteController.game.SetPieceAt(0, 0, PieceColor.Black);
@@ -183,7 +187,7 @@ namespace PenteTests
         public void SecondPlayerMakes5thCapture_GameOver()
         {
             //Set up
-            PenteController.StartGame();
+            PenteController.StartGame(PlayMode.MultiPlayer);
             PenteController.game.SecondPlayerCaptures = 4;
 
             PenteController.game.SetPieceAt(0, 0, PieceColor.White);
