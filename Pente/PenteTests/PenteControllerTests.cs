@@ -221,9 +221,13 @@ namespace PenteTests
             PenteController.game.SetPieceAt(5, 5, PieceColor.Black);
             PenteController.game.SetPieceAt(5, 6, PieceColor.Black);
 
+            //Make Tria move
+            PenteController.TakeTurn(5, 7);
+
             bool expected = true;
+            bool actual = PenteController.game.Tria;
 
-
+            Assert.AreEqual(expected, actual);
         }
     }
 }
