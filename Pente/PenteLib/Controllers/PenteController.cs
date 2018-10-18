@@ -108,6 +108,45 @@ namespace PenteLib.Controllers
             {
                 return true;
             }
+
+            #region Five in a row checks
+            // Up-Down win
+            int upCount = NumInARow(Direction.Up, row, col, color);
+            int downCount = NumInARow(Direction.Down, row, col, color);
+            //Add one for the current piece
+            if( upCount + downCount + 1 >= 5)
+            {
+                return true;
+            }
+
+            // Left-Right win
+            int leftCount = NumInARow(Direction.Left, row, col, color);
+            int rightCount = NumInARow(Direction.Right, row, col, color);
+            //Add one for the current piece
+            if (leftCount + rightCount + 1 >= 5)
+            {
+                return true;
+            }
+
+            // Diagonal \
+            int upLeftCount = NumInARow(Direction.UpLeft, row, col, color);
+            int downRightCount = NumInARow(Direction.DownRight, row, col, color);
+            //Add one for the current piece
+            if (upLeftCount + downRightCount + 1 >= 5)
+            {
+                return true;
+            }
+
+            // Diagonal /
+            int upRightCount = NumInARow(Direction.UpRight, row, col, color);
+            int downLeftCount = NumInARow(Direction.DownLeft, row, col, color);
+            //Add one for the current piece
+            if (upRightCount + downLeftCount + 1 >= 5)
+            {
+                return true;
+            }
+            #endregion
+
             return false;
         }
 
