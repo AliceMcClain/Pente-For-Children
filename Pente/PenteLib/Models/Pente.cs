@@ -6,8 +6,14 @@ using System.Threading.Tasks;
 
 namespace PenteLib.Models
 {
+    
+
     public class Pente
     {
+        public bool Tria { get; set; }
+
+        public bool Tessera { get; set; }
+
         private PieceColor[,] board = new PieceColor[19,19];
 
         public bool isFirstPlayersTurn { get; set; }
@@ -27,6 +33,8 @@ namespace PenteLib.Models
             IsGameOver = false;
             FirstPlayerCaptures = 0;
             SecondPlayerCaptures = 0;
+            Tria = false;
+            Tessera = false;
         }
 
         public PieceColor GetPieceAt(int row, int column)

@@ -59,9 +59,9 @@ namespace PenteTests
         }
 
         [TestMethod]
-        public void ChangePlayerTurnAfterTakingATurn()
+        public void ChangePlayerTurnAfterTakingATurn_MultiPlayerMode()
         {
-            PenteController.StartGame();
+            PenteController.StartGame(PlayMode.MultiPlayer);
             var expected = !PenteController.game.isFirstPlayersTurn;
             bool actual;
 
@@ -81,6 +81,7 @@ namespace PenteTests
 
             Assert.AreEqual(expected, actual);
         }
+
         [TestMethod]
         public void CaptureTest()
         {
@@ -197,6 +198,32 @@ namespace PenteTests
             bool actual = PenteController.game.IsGameOver;
 
             Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void OutOfBoundsCheck()
+        {
+            PenteController.StartGame();
+
+            bool expected = false;
+            bool actual = PenteController.TakeTurn(-50, -50);
+
+            Assert.AreEqual(expected, actual);
+
+        }
+
+        [TestMethod]
+        public void Tria_Event()
+        {
+            PenteController.StartGame();
+
+            //Set up
+            PenteController.game.SetPieceAt(5, 5, PieceColor.Black);
+            PenteController.game.SetPieceAt(5, 6, PieceColor.Black);
+
+            bool expected = true;
+
+
         }
     }
 }
