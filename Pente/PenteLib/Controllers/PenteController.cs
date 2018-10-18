@@ -7,6 +7,23 @@ using System.Threading.Tasks;
 
 namespace PenteLib.Controllers
 {
+    public struct Point
+    {
+        public int row;
+        public int column;
+
+        public Point(int row, int column)
+        {
+            this.row = row;
+            this.column = column;
+        }
+    }
+    struct Capture
+    {
+        public bool captured;
+        public Point firstPoint;
+        public Point secondPoint;
+    }
     public static class PenteController
     {
         public static Pente game;
@@ -21,9 +38,9 @@ namespace PenteLib.Controllers
         private static bool ValidateMove(int row, int column)
         {
             bool result = false;
-            if(row >= 0 && row < boardSize && column >= 0 && column < boardSize)
+            if (row >= 0 && row < boardSize && column >= 0 && column < boardSize)
             {
-                if(game.GetPieceAt(row, column) == PieceColor.Empty)
+                if (game.GetPieceAt(row, column) == PieceColor.Empty)
                 {
                     result = true;
                 }
@@ -37,10 +54,12 @@ namespace PenteLib.Controllers
 
             game.SetPieceAt(row, column, color);
 
-            // Alternates player turn
-            game.isFirstPlayersTurn = !game.isFirstPlayersTurn;
+            game.IsGameOver = CheckForWinner(row, column, color);
 
-            game.IsGameOver = CheckForWinner();
+            // Alternates player turn if the game isn't over
+            if (!game.IsGameOver) {
+                game.isFirstPlayersTurn = !game.isFirstPlayersTurn;
+            }
         }
 
         public static bool TakeTurn(int row, int column)
@@ -52,7 +71,7 @@ namespace PenteLib.Controllers
                 ProcessMove(row, column);
 
                 // If you are vs AI, the game isn't over, and it is the AI's turn: take the AI's Turn
-                if(game.PlayMode == PlayMode.SinglePlayer && !game.IsGameOver && !game.isFirstPlayersTurn)
+                if (game.PlayMode == PlayMode.SinglePlayer && !game.IsGameOver && !game.isFirstPlayersTurn)
                 {
                     AITurn();
                 }
@@ -60,15 +79,112 @@ namespace PenteLib.Controllers
             return turnIsValid;
         }
 
-        private static bool CheckForWinner()
+        private static bool CheckForWinner(int row, int col, PieceColor color)
         {
+            //Checks all directions around the locations specified for a capture, and removes the captures pieces
+            foreach(Direction direction in Enum.GetValues(typeof(Direction)))
+            {
+                Capture capture = CheckCapture(direction, row, col, color);
+                if (capture.captured)
+                {
+                    // Adds to the capture amount of the player whose turn it is
+                    if (game.isFirstPlayersTurn)
+                    {
+                        game.FirstPlayerCaptures++;
+                    }
+                    else
+                    {
+                        game.SecondPlayerCaptures++;
+                    }
+
+                    //Removes the captured pieces
+                    game.SetPieceAt(capture.firstPoint, PieceColor.Empty);
+                    game.SetPieceAt(capture.secondPoint, PieceColor.Empty);
+                }
+            }
+
+            //5 captures means the player has won
+            if(game.FirstPlayerCaptures >= 5 || game.SecondPlayerCaptures >= 5)
+            {
+                return true;
+            }
             return false;
         }
 
-        //private static int NumInARow()
-        //{
+        private static Capture CheckCapture(Direction direction, int row, int col, PieceColor color)
+        {
+            int rowChange = 0;
+            int colChange = 0;
+            Capture capture = new Capture();
+            DirectionChange(direction, out rowChange, out colChange);
+            PieceColor opposing = color == PieceColor.White ? PieceColor.Black : PieceColor.White;
+            // If the edge case is out of bound, there isn't a capture
+            if (row + (rowChange * 3) >= 0 && row + (rowChange * 3) < boardSize && col + (colChange * 3) >= 0 && col + (colChange * 3) < boardSize)
+            {
+                bool firstPiece = game.Board[row + rowChange, col + colChange] == opposing;
+                bool secondPiece = game.Board[row + (rowChange * 2), col + (colChange * 2)] == opposing;
+                bool closingPiece = game.Board[row + (rowChange * 3), col + (colChange * 3)] == color;
+                if (firstPiece && secondPiece && closingPiece)
+                {
+                    capture.captured = true;
+                    capture.firstPoint = new Point(row + rowChange, col + colChange);
+                    capture.secondPoint = new Point(row + (rowChange * 2), col + (colChange * 2));
+                }
+                else
+                {
+                    capture.captured = false;
+                }
+            }
+            else
+            {
+                capture.captured = false;
+            }
+            return capture;
+        }
 
-        //}
+        private static void DirectionChange(Direction direction, out int rowChange, out int colChange)
+        {
+            rowChange = 0;
+            colChange = 0;
+            if (direction == Direction.Up || direction == Direction.UpLeft || direction == Direction.UpRight)//Checking for up
+            {
+                rowChange = -1;
+            }
+            else if (direction == Direction.Down || direction == Direction.DownLeft || direction == Direction.DownRight)//Checking for down
+            {
+                rowChange = 1;
+            }
+            if (direction == Direction.Right || direction == Direction.DownRight || direction == Direction.UpRight)//Checking for right
+            {
+                colChange = 1;
+            }
+            else if (direction == Direction.Left || direction == Direction.DownLeft || direction == Direction.UpLeft)//Checking for left
+            {
+                colChange = -1;
+            }
+        }
+        private static int NumInARow(Direction direction, int row, int col, PieceColor color)
+        {
+
+            int inARow = 0;
+            int rowChange = 0;
+            int colChange = 0;
+            DirectionChange(direction, out rowChange, out colChange);
+            PieceColor opposing = color == PieceColor.White ? PieceColor.Black : PieceColor.White;
+            
+            //Makes sure our row and column are in range of the board
+            bool inRange = row + rowChange >= 0 && row + rowChange < boardSize && col + colChange >= 0 && col + colChange < boardSize;
+            while (inRange && game.Board[row + rowChange, col + colChange] == color )
+            {
+                inARow++;
+                row += rowChange;
+                col += colChange;
+
+                inRange = row + rowChange >= 0 && row + rowChange < boardSize && col + colChange >= 0 && col + colChange < boardSize;
+            }
+
+            return inARow;
+        }
 
         private static void AITurn()
         {

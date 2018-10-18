@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PenteLib.Controllers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -45,6 +46,11 @@ namespace PenteLib.Models
         public void SetPieceAt(int row, int column, PieceColor pieceColor)
         {
             Board[row, column] = pieceColor;
+        }
+
+        public void SetPieceAt(Point point, PieceColor pieceColor)
+        {
+            SetPieceAt(point.row, point.column, pieceColor);
         }
     }
 }
