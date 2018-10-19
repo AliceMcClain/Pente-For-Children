@@ -18,4 +18,16 @@ namespace PenteLib.Models
         White,
         Black
     }
+
+    public enum Direction
+    {
+        Up,
+        Down,
+        Left,
+        Right,
+        UpLeft,
+        UpRight,
+        DownLeft,
+        DownRight
+    }
 }
