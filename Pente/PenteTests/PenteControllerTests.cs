@@ -217,7 +217,7 @@ namespace PenteTests
         }
 
         [TestMethod]
-        public void Tria_Event()
+        public void Tria_Event_Horizantal()
         {
             PenteController.StartGame();
 
@@ -225,9 +225,160 @@ namespace PenteTests
             PenteController.game.SetPieceAt(5, 5, PieceColor.Black);
             PenteController.game.SetPieceAt(5, 6, PieceColor.Black);
 
+            //Make Tria move
+            PenteController.TakeTurn(5, 7);
+
             bool expected = true;
+            bool actual = PenteController.game.Tria;
 
+            Assert.AreEqual(expected, actual);
+        }
 
+        [TestMethod]
+        public void Tria_Event_Vertical()
+        {
+            PenteController.StartGame();
+
+            //Set up
+            PenteController.game.SetPieceAt(5, 5, PieceColor.Black);
+            PenteController.game.SetPieceAt(6, 5, PieceColor.Black);
+
+            //Make Tria move
+            PenteController.TakeTurn(7, 5);
+
+            bool expected = true;
+            bool actual = PenteController.game.Tria;
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void Tria_Event_Diagonal()
+        {
+            PenteController.StartGame();
+
+            //Set up
+            PenteController.game.SetPieceAt(0, 0, PieceColor.Black);
+            PenteController.game.SetPieceAt(1, 1, PieceColor.Black);
+
+            //Make Tria move
+            PenteController.TakeTurn(2, 2);
+
+            bool expected = true;
+            bool actual = PenteController.game.Tria;
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void TriaWithGap_Event_Horizantal()
+        {
+            PenteController.StartGame();
+
+            //Set up
+            PenteController.game.SetPieceAt(5, 5, PieceColor.Black);
+            PenteController.game.SetPieceAt(5, 6, PieceColor.Black);
+
+            //Make Tria move
+            PenteController.TakeTurn(5, 8);
+
+            bool expected = true;
+            bool actual = PenteController.game.Tria;
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void TriaWithGap_Event_Vertical()
+        {
+            PenteController.StartGame();
+
+            //Set up
+            PenteController.game.SetPieceAt(5, 5, PieceColor.Black);
+            PenteController.game.SetPieceAt(6, 5, PieceColor.Black);
+
+            //Make Tria move
+            PenteController.TakeTurn(8, 5);
+
+            bool expected = true;
+            bool actual = PenteController.game.Tria;
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void TriaWithGap_Event_Diagonal()
+        {
+            PenteController.StartGame();
+
+            //Set up
+            PenteController.game.SetPieceAt(0, 0, PieceColor.Black);
+            PenteController.game.SetPieceAt(1, 1, PieceColor.Black);
+
+            //Make Tria move
+            PenteController.TakeTurn(3, 3);
+
+            bool expected = true;
+            bool actual = PenteController.game.Tria;
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void Tessera_Event_Horizonatl()
+        {
+            PenteController.StartGame();
+
+            //Set up
+            PenteController.game.SetPieceAt(5, 5, PieceColor.Black);
+            PenteController.game.SetPieceAt(5, 6, PieceColor.Black);
+            PenteController.game.SetPieceAt(5, 7, PieceColor.Black);
+
+            //Make Tessera move
+            PenteController.TakeTurn(5, 8);
+
+            bool expected = true;
+            bool actual = PenteController.game.Tessera;
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void Tessera_Event_Vertical()
+        {
+            PenteController.StartGame();
+
+            //Set up
+            PenteController.game.SetPieceAt(5, 5, PieceColor.Black);
+            PenteController.game.SetPieceAt(6, 5, PieceColor.Black);
+            PenteController.game.SetPieceAt(7, 5, PieceColor.Black);
+
+            //Make Tessera move
+            PenteController.TakeTurn(8, 5);
+
+            bool expected = true;
+            bool actual = PenteController.game.Tessera;
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void Tessera_Event_Diagonal()
+        {
+            PenteController.StartGame();
+
+            //Set up
+            PenteController.game.SetPieceAt(5, 5, PieceColor.Black);
+            PenteController.game.SetPieceAt(6, 6, PieceColor.Black);
+            PenteController.game.SetPieceAt(7, 7, PieceColor.Black);
+
+            //Make Tessera move
+            PenteController.TakeTurn(8, 8);
+
+            bool expected = true;
+            bool actual = PenteController.game.Tessera;
+
+            Assert.AreEqual(expected, actual);
         }
     }
 }
