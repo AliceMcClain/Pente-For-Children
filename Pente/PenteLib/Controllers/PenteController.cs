@@ -33,9 +33,9 @@ namespace PenteLib.Controllers
 
         private static bool isDebug;
 
-        public static void StartGame(PlayMode playMode = PlayMode.SinglePlayer, bool isDebug = false)
+        public static void StartGame(PlayMode playMode = PlayMode.SinglePlayer, bool isDebug = false, int boardSize = 19)
         {
-            game = new Pente(playMode);
+            game = new Pente(playMode, boardSize);
             PenteController.isDebug = isDebug;
         }
 

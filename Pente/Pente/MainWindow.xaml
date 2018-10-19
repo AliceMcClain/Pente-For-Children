@@ -9,6 +9,9 @@
     <Grid>
         <Button Content="Single Player" HorizontalAlignment="Left" Margin="275,160,0,0" VerticalAlignment="Top" Width="250" FontSize="30" Click="Single_Click"/>
         <Button Content="Multi Player" HorizontalAlignment="Left" Margin="275,209,0,0" VerticalAlignment="Top" Width="250" FontSize="30" Click="Multi_Click"/>
+        <Slider Name="sldrBoardSize" Value="19" HorizontalAlignment="Left" VerticalAlignment="Top" Height="31" Width="250" Margin="275,124,0,0" Maximum="39" Minimum="9" TickFrequency="2" SmallChange="2" TickPlacement="BottomRight" LargeChange="2" IsSnapToTickEnabled="True"/>
+        <Label Content="Board Size:" HorizontalAlignment="Left" Margin="275,93,0,0" VerticalAlignment="Top" Width="89" FontSize="15"/>
+        <Label Content="{Binding ElementName=sldrBoardSize, Path=Value}" HorizontalAlignment="Left" Margin="364,93,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.228,0.53" Width="39" FontSize="15"/>
 
     </Grid>
 </Window>

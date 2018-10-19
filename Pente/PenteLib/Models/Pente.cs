@@ -15,7 +15,7 @@ namespace PenteLib.Models
 
         public bool Tessera { get; set; }
 
-        private PieceColor[,] board = new PieceColor[19,19];
+        private PieceColor[,] board;
 
         public bool isFirstPlayersTurn { get; set; }
 
@@ -28,8 +28,10 @@ namespace PenteLib.Models
         public PieceColor[,] Board { get => board; set => board = value; }
         public PlayMode PlayMode { get; set; }
 
-        public Pente(PlayMode playMode)
+        public Pente(PlayMode playMode, int boardSize)
         {
+            board = new PieceColor[boardSize, boardSize];
+
             PlayMode = playMode;
             isFirstPlayersTurn = true;
             IsGameOver = false;

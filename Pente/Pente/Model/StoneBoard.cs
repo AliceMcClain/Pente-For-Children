@@ -10,12 +10,14 @@ namespace Pente
     public class StoneBoard
     {
         private Stone[,] board;
-        private int rows = 19;
-        private int columns = 19;
+        private int rows;
+        private int columns;
         
         //puts Stones in the 2D array
-        public StoneBoard()
+        public StoneBoard(int boardSize)
         {
+            this.rows = boardSize;
+            this.columns = boardSize;
             board = new Stone[rows, columns];
             for (int i = 0; i < rows; i++)
             {

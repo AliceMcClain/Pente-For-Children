@@ -1,6 +1,7 @@
 ﻿using PenteLib.Controllers;
 using PenteLib.Models;
 using System;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -20,12 +21,16 @@ namespace Pente
         StoneBoard board;
         UniformGrid stoneGrid;
 
-        public GameWindow(PlayMode playMode = PlayMode.SinglePlayer)
+        private int boardSize;
+
+        public GameWindow(int boardSize, PlayMode playMode)
         {
             InitializeComponent();
 
-            PenteController.StartGame(playMode);
-            board = new StoneBoard();
+            this.boardSize = boardSize;
+
+            PenteController.StartGame(playMode, boardSize: boardSize, isDebug: true);
+            board = new StoneBoard(boardSize);
 
             
             SetGameSquares();
@@ -57,7 +62,7 @@ namespace Pente
         //Creates the Green squares you see
         private void SetGameSquares()
         {
-            UniformGrid squares = new UniformGrid { Rows = 18, Columns = 18, Margin = new Thickness(25) };
+            UniformGrid squares = new UniformGrid { Rows = boardSize-1, Columns = boardSize-1, Margin = new Thickness(25) };
             SolidColorBrush color = new SolidColorBrush(Colors.Green);
             Rectangle square;
 
@@ -81,7 +86,7 @@ namespace Pente
         //Creats a board to set the stones on.
         private void SetUpStoneBoard()
         {
-            stoneGrid = new UniformGrid { Rows = 19, Columns = 19, Margin = new Thickness(11) };
+            stoneGrid = new UniformGrid { Rows = boardSize, Columns = boardSize, Margin = new Thickness(11) };
             StoneSpace stoneSpace;
             Binding imageBinding;
 
@@ -136,6 +141,14 @@ namespace Pente
 
             PenteController.TakeTurn(row, col);
             UpdateBoard();
+            if (PenteController.game.IsGameOver)
+            {
+                //Gets the name of the winner, which is the current player's turn
+                string winner = PenteController.game.isFirstPlayersTurn ? lblPlayer1Name.Content.ToString() : lblPlayer2Name.Content.ToString(); 
+                WinWindow winWindow = new WinWindow(PenteController.game.PlayMode, winner, boardSize);
+                winWindow.Show();
+                this.Close();
+            }
         }
 
         #region Player name editting
