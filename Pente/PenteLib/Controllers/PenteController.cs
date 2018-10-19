@@ -29,16 +29,38 @@ namespace PenteLib.Controllers
         public static Pente game;
 
         public static int boardSize = 19;
+        public static int boardCenter = boardSize / 2;
 
-        public static void StartGame(PlayMode playMode = PlayMode.SinglePlayer)
+        private static bool isDebug;
+
+        public static void StartGame(PlayMode playMode = PlayMode.SinglePlayer, bool isDebug = false)
         {
             game = new Pente(playMode);
+            PenteController.isDebug = isDebug;
         }
 
         private static bool ValidateMove(int row, int column)
         {
             bool result = false;
-            if (row >= 0 && row < boardSize && column >= 0 && column < boardSize)
+            if (game.Turn == 1 && !isDebug)
+            {
+                result = row == boardCenter && column == boardCenter;
+            }
+            else if (game.Turn == 3 && !isDebug)
+            {
+                if (row >= 0 && row < boardSize && column >= 0 && column < boardSize)
+                {
+                    if (row >= boardCenter + 3 || row <= boardCenter - 3)
+                    {
+                        result = true;
+                    }
+                    else if (column >= boardCenter + 3 || column <= boardCenter - 3)
+                    {
+                        result = true;
+                    }
+                }
+            }
+            else if (row >= 0 && row < boardSize && column >= 0 && column < boardSize)
             {
                 if (game.GetPieceAt(row, column) == PieceColor.Empty)
                 {
@@ -56,8 +78,11 @@ namespace PenteLib.Controllers
 
             game.IsGameOver = CheckForWinner(row, column, color);
 
+            game.Turn++;
+
             // Alternates player turn if the game isn't over
-            if (!game.IsGameOver) {
+            if (!game.IsGameOver)
+            {
                 game.isFirstPlayersTurn = !game.isFirstPlayersTurn;
             }
         }
@@ -66,7 +91,7 @@ namespace PenteLib.Controllers
         {
             bool turnIsValid = ValidateMove(row, column);
 
-            if (turnIsValid)
+            if (!game.IsGameOver && turnIsValid)
             {
                 ProcessMove(row, column);
 
@@ -82,7 +107,7 @@ namespace PenteLib.Controllers
         private static bool CheckForWinner(int row, int col, PieceColor color)
         {
             //Checks all directions around the locations specified for a capture, and removes the captures pieces
-            foreach(Direction direction in Enum.GetValues(typeof(Direction)))
+            foreach (Direction direction in Enum.GetValues(typeof(Direction)))
             {
                 Capture capture = CheckCapture(direction, row, col, color);
                 if (capture.captured)
@@ -104,7 +129,7 @@ namespace PenteLib.Controllers
             }
 
             //5 captures means the player has won
-            if(game.FirstPlayerCaptures >= 5 || game.SecondPlayerCaptures >= 5)
+            if (game.FirstPlayerCaptures >= 5 || game.SecondPlayerCaptures >= 5)
             {
                 return true;
             }
@@ -114,7 +139,7 @@ namespace PenteLib.Controllers
             int upCount = NumInARow(Direction.Up, row, col, color);
             int downCount = NumInARow(Direction.Down, row, col, color);
             //Add one for the current piece
-            if( upCount + downCount + 1 >= 5)
+            if (upCount + downCount + 1 >= 5)
             {
                 return true;
             }
@@ -210,10 +235,10 @@ namespace PenteLib.Controllers
             int colChange = 0;
             DirectionChange(direction, out rowChange, out colChange);
             PieceColor opposing = color == PieceColor.White ? PieceColor.Black : PieceColor.White;
-            
+
             //Makes sure our row and column are in range of the board
             bool inRange = row + rowChange >= 0 && row + rowChange < boardSize && col + colChange >= 0 && col + colChange < boardSize;
-            while (inRange && game.Board[row + rowChange, col + colChange] == color )
+            while (inRange && game.Board[row + rowChange, col + colChange] == color)
             {
                 inARow++;
                 row += rowChange;

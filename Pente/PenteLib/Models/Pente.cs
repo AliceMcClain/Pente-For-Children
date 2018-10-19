@@ -22,6 +22,7 @@ namespace PenteLib.Models
         public int FirstPlayerCaptures { get; set; }
 
         public int SecondPlayerCaptures { get; set; }
+        public int Turn { get; set; }
 
         public bool IsGameOver { get; set; }
         public PieceColor[,] Board { get => board; set => board = value; }
@@ -36,6 +37,7 @@ namespace PenteLib.Models
             SecondPlayerCaptures = 0;
             Tria = false;
             Tessera = false;
+            Turn = 1;
         }
 
         public PieceColor GetPieceAt(int row, int column)

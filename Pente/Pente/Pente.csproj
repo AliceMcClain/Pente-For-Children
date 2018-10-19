@@ -62,6 +62,9 @@
     <Compile Include="StoneSpace.xaml.cs">
       <DependentUpon>StoneSpace.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WinningScreen.xaml.cs">
+      <DependentUpon>WinningScreen.xaml</DependentUpon>
+    </Compile>
     <Page Include="GameWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -80,6 +83,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="StoneSpace.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WinningScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
