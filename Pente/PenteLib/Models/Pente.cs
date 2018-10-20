@@ -10,7 +10,7 @@ namespace PenteLib.Models
 {
     
 
-    public class Pente : INotifyPropertyChanged
+    public class Pente
     {
         public bool Tria { get; set; }
 
@@ -18,28 +18,12 @@ namespace PenteLib.Models
 
         private PieceColor[,] board;
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private bool isFirstPlayersTurn;
-
-        public bool IsFirstPlayersTurn { get => isFirstPlayersTurn; set {
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsFirstPlayersTurn"));
-                isFirstPlayersTurn = value;
-            }
-        }
+        public bool IsFirstPlayersTurn { get; set; }
 
         public int FirstPlayerCaptures { get; set; }
 
         public int SecondPlayerCaptures { get; set; }
-        private int turn;
-        public int Turn
-        {
-            get => turn;
-            set {
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Turn"));
-                turn = value;
-            }
-        }
+        public int Turn { get; set; }
 
         public bool IsGameOver { get; set; }
         public PieceColor[,] Board { get => board; set => board = value; }

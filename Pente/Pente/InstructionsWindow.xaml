@@ -7,7 +7,9 @@
         mc:Ignorable="d"
         Title="InstructionsWindow" Height="450" Width="800">
     <Grid>
-        <Button Content="Exit" HorizontalAlignment="Left" Margin="393,368,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button Content="Exit" HorizontalAlignment="Center" Margin="0,368,0,0" VerticalAlignment="Top" Width="75" FontSize="20"/>
+        <Label Content="Instructions" HorizontalAlignment="Center" Margin="0,41,0,0" VerticalAlignment="Top" FontSize="36"/>
+        
 
     </Grid>
 </Window>
