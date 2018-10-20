@@ -23,7 +23,11 @@ namespace Pente
         {
             InitializeComponent();
         }
-
+        private void Instructions_Click(object sender, RoutedEventArgs e)
+        {
+            InstructionsWindow window = new InstructionsWindow();
+            window.Show();
+        }
         private void Single_Click(object sender, RoutedEventArgs e)
         {
             GameWindow window = new GameWindow((int)sldrBoardSize.Value, PenteLib.Models.PlayMode.SinglePlayer);

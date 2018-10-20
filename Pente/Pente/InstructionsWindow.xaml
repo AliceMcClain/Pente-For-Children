@@ -7,9 +7,28 @@
         mc:Ignorable="d"
         Title="InstructionsWindow" Height="450" Width="800">
     <Grid>
-        <Button Content="Exit" HorizontalAlignment="Center" Margin="0,368,0,0" VerticalAlignment="Top" Width="75" FontSize="20"/>
-        <Label Content="Instructions" HorizontalAlignment="Center" Margin="0,41,0,0" VerticalAlignment="Top" FontSize="36"/>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Button Content="Exit" HorizontalAlignment="Center" Margin="0,371,0,0" VerticalAlignment="Top" Width="75" FontSize="20" Click="Button_Click"/>
+        <Label Content="Instructions" HorizontalAlignment="Center" Margin="0,1,0,0" VerticalAlignment="Top" FontSize="36"/>
+        <Label Content="Movement Rules" HorizontalAlignment="Left" Margin="93,55,0,0" VerticalAlignment="Top" Height="25" Width="112" FontWeight="Bold" />
+        <Label Content="-First Player's first move must be placed in the center intersection" HorizontalAlignment="Left" Margin="119,74,0,0" VerticalAlignment="Top" Height="30" Width="356" />
+        <Label Content="-First Player's second move must be placed at least 3 intersections away form the center" HorizontalAlignment="Left" Margin="119,92,0,0" VerticalAlignment="Top" Height="30" Width="480" />
+        <Label Content="-The rest of First Player's and all of Second Player's moves can be placed anywhere on the board" HorizontalAlignment="Left" Margin="119,111,0,0" VerticalAlignment="Top" Height="30" Width="518" />
+        <Label Content="Tria" HorizontalAlignment="Left" Margin="93,130,0,0" VerticalAlignment="Top" Height="25" Width="101" FontWeight="Bold" />
+        <Label Content="-A tria is a row of three stones with a possible single gap between the stones with a open space at each end" HorizontalAlignment="Left" Margin="119,149,0,0" VerticalAlignment="Top" Height="30" Width="649" />
+        <Label Content="Tessera" HorizontalAlignment="Left" Margin="93,168,0,0" VerticalAlignment="Top" Height="25" Width="101" FontWeight="Bold" />
+        <Label Content="-A tessera is a row of four stones with an open space at each end" HorizontalAlignment="Left" Margin="119,186,0,0" VerticalAlignment="Top" Height="30" Width="505" />
+        <Label Content="Caputre" HorizontalAlignment="Left" Margin="93,205,0,0" VerticalAlignment="Top" Height="25" Width="101" FontWeight="Bold" />
+        <Label Content="-Place a stone on each side of a pair of your opponent's adjacent stones" HorizontalAlignment="Left" Margin="119,223,0,0" VerticalAlignment="Top" Height="30" Width="505" />
+        <Label Content="How to Win" HorizontalAlignment="Left" Margin="93,242,0,0" VerticalAlignment="Top" Height="25" Width="101" FontWeight="Bold" />
+        <Label Content="-Place a row of five stones in any direction" HorizontalAlignment="Left" Margin="119,260,0,0" VerticalAlignment="Top" Height="30" Width="505" />
+        <Label Content="-Capture a total of five pairs of your opponent's stones" HorizontalAlignment="Left" Margin="119,279,0,0" VerticalAlignment="Top" Height="30" Width="505" />
+        <Label Content="Application Information" HorizontalAlignment="Left" Margin="93,298,0,0" VerticalAlignment="Top" Height="25" Width="148" FontWeight="Bold" />
+        <Label Content="-To place a stone, click on any available intersection" HorizontalAlignment="Left" Margin="119,317,0,0" VerticalAlignment="Top" Height="30" Width="505" />
+        <Label Content="-To change your name, click on the quill and edit your name" HorizontalAlignment="Left" Margin="119,336,0,0" VerticalAlignment="Top" Height="30" Width="505" />
+
 
     </Grid>
 </Window>
