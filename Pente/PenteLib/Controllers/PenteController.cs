@@ -79,7 +79,7 @@ namespace PenteLib.Controllers
 
         private static void ProcessMove(int row, int column)
         {
-            PieceColor color = game.isFirstPlayersTurn ? PieceColor.Black : PieceColor.White;
+            PieceColor color = game.IsFirstPlayersTurn ? PieceColor.Black : PieceColor.White;
 
             game.SetPieceAt(row, column, color);
 
@@ -92,7 +92,7 @@ namespace PenteLib.Controllers
             // Alternates player turn if the game isn't over
             if (!game.IsGameOver)
             {
-                game.isFirstPlayersTurn = !game.isFirstPlayersTurn;
+                game.IsFirstPlayersTurn = !game.IsFirstPlayersTurn;
             }
         }
 
@@ -105,7 +105,7 @@ namespace PenteLib.Controllers
                 ProcessMove(row, column);
 
                 // If you are vs AI, the game isn't over, and it is the AI's turn: take the AI's Turn
-                if (game.PlayMode == PlayMode.SinglePlayer && !game.IsGameOver && !game.isFirstPlayersTurn)
+                if (game.PlayMode == PlayMode.SinglePlayer && !game.IsGameOver && !game.IsFirstPlayersTurn)
                 {
                     AITurn();
                 }
@@ -122,7 +122,7 @@ namespace PenteLib.Controllers
                 if (capture.captured)
                 {
                     // Adds to the capture amount of the player whose turn it is
-                    if (game.isFirstPlayersTurn)
+                    if (game.IsFirstPlayersTurn)
                     {
                         game.FirstPlayerCaptures++;
                     }
@@ -189,8 +189,13 @@ namespace PenteLib.Controllers
 
         public static void SkipTurn()
         {
-            game.isFirstPlayersTurn = !game.isFirstPlayersTurn;
+            game.IsFirstPlayersTurn = !game.IsFirstPlayersTurn;
             game.Turn++;
+            
+            if(game.PlayMode == PlayMode.SinglePlayer)
+            {
+                AITurn();
+            }
         }
 
         private static Capture CheckCapture(Direction direction, int row, int col, PieceColor color)
@@ -368,9 +373,14 @@ namespace PenteLib.Controllers
                     result.isTessera = true;
                     for(int i = 1; i < 5; i++)
                     {
-                        if(game.GetPieceAt(points[i]) != pieceColor)
+                        if(game.GetPieceAt(points[i]) == PieceColor.Empty)
                         {
                             result.isTria = result.isTessera ? true : false;
+                            result.isTessera = false;
+                        }
+                        else if(game.GetPieceAt(points[i]) != pieceColor)
+                        {
+                            result.isTria = false;
                             result.isTessera = false;
                         }
                     }

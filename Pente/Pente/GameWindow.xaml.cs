@@ -11,6 +11,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Timers;
 using System.ComponentModel;
+using Pente.Converters;
 
 namespace Pente
 {
@@ -58,7 +59,24 @@ namespace Pente
             PenteController.StartGame(playMode, BoardSize: boardSize, isDebug: true);
             board = new StoneBoard(boardSize);
 
-            
+            Binding p1 = new Binding()
+            {
+                Path = new PropertyPath("Turn"),
+                Source = PenteController.game,
+                Converter = new BoolToColorConverter(),
+                ConverterParameter = true
+            };
+            lblPlayer1Name.SetBinding(BackgroundProperty, p1);
+
+            Binding p2 = new Binding()
+            {
+                Path = new PropertyPath("Turn"),
+                Source = PenteController.game,
+                Converter = new BoolToColorConverter(),
+                ConverterParameter = false
+            };
+            lblPlayer2Name.SetBinding(BackgroundProperty, p2);
+
             SetGameSquares();
             SetUpStoneBoard();
             UpdateBoard();
@@ -182,8 +200,10 @@ namespace Pente
                 if (PenteController.game.IsGameOver)
                 {
                     //Gets the name of the winner, which is the current player's turn
-                    string winner = PenteController.game.isFirstPlayersTurn ? lblPlayer1Name.Content.ToString() : lblPlayer2Name.Content.ToString();
+                    string winner = PenteController.game.IsFirstPlayersTurn ? lblPlayer1Name.Content.ToString() : lblPlayer2Name.Content.ToString();
                     WinWindow winWindow = new WinWindow(PenteController.game.PlayMode, winner, boardSize);
+                    timer.Stop();
+
                     winWindow.Show();
                     this.Close();
                 }

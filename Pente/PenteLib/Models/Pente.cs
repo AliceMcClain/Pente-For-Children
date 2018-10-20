@@ -1,6 +1,7 @@
 ﻿using PenteLib.Controllers;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ namespace PenteLib.Models
 {
     
 
-    public class Pente
+    public class Pente : INotifyPropertyChanged
     {
         public bool Tria { get; set; }
 
@@ -17,12 +18,28 @@ namespace PenteLib.Models
 
         private PieceColor[,] board;
 
-        public bool isFirstPlayersTurn { get; set; }
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private bool isFirstPlayersTurn;
+
+        public bool IsFirstPlayersTurn { get => isFirstPlayersTurn; set {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsFirstPlayersTurn"));
+                isFirstPlayersTurn = value;
+            }
+        }
 
         public int FirstPlayerCaptures { get; set; }
 
         public int SecondPlayerCaptures { get; set; }
-        public int Turn { get; set; }
+        private int turn;
+        public int Turn
+        {
+            get => turn;
+            set {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Turn"));
+                turn = value;
+            }
+        }
 
         public bool IsGameOver { get; set; }
         public PieceColor[,] Board { get => board; set => board = value; }
@@ -33,7 +50,7 @@ namespace PenteLib.Models
             board = new PieceColor[boardSize, boardSize];
 
             PlayMode = playMode;
-            isFirstPlayersTurn = true;
+            IsFirstPlayersTurn = true;
             IsGameOver = false;
             FirstPlayerCaptures = 0;
             SecondPlayerCaptures = 0;

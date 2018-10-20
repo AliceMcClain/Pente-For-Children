@@ -62,11 +62,11 @@ namespace PenteTests
         public void ChangePlayerTurnAfterTakingATurn_MultiPlayerMode()
         {
             PenteController.StartGame(PlayMode.MultiPlayer, true);
-            var expected = !PenteController.game.isFirstPlayersTurn;
+            var expected = !PenteController.game.IsFirstPlayersTurn;
             bool actual;
 
             PenteController.TakeTurn(1, 1);
-            actual = PenteController.game.isFirstPlayersTurn;
+            actual = PenteController.game.IsFirstPlayersTurn;
 
             Assert.AreEqual(expected, actual);
         }
@@ -193,7 +193,7 @@ namespace PenteTests
             PenteController.game.SetPieceAt(0, 0, PieceColor.White);
             PenteController.game.SetPieceAt(0, 1, PieceColor.Black);
             PenteController.game.SetPieceAt(0, 2, PieceColor.Black);
-            PenteController.game.isFirstPlayersTurn = false;
+            PenteController.game.IsFirstPlayersTurn = false;
 
             //Capture
             PenteController.TakeTurn(0, 3);
