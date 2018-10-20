@@ -47,6 +47,11 @@ namespace PenteLib.Models
             return Board[row, column];
         }
 
+        public PieceColor GetPieceAt(Point point)
+        {
+            return GetPieceAt(point.row, point.column);
+        }
+
         public void SetPieceAt(int row, int column, PieceColor pieceColor)
         {
             Board[row, column] = pieceColor;

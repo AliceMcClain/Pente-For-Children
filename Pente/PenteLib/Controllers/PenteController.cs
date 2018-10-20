@@ -24,6 +24,11 @@ namespace PenteLib.Controllers
         public Point firstPoint;
         public Point secondPoint;
     }
+    struct TesseraResult
+    {
+        public bool isTria;
+        public bool isTessera;
+    }
     public static class PenteController
     {
         public static Pente game;
@@ -78,6 +83,8 @@ namespace PenteLib.Controllers
 
             game.SetPieceAt(row, column, color);
 
+            CheckTessera(row, column, color);
+
             game.IsGameOver = CheckForWinner(row, column, color);
 
             game.Turn++;
@@ -127,6 +134,9 @@ namespace PenteLib.Controllers
                     //Removes the captured pieces
                     game.SetPieceAt(capture.firstPoint, PieceColor.Empty);
                     game.SetPieceAt(capture.secondPoint, PieceColor.Empty);
+
+                    CheckTessera(capture.firstPoint.row, capture.firstPoint.column, color == PieceColor.Black ? PieceColor.White : PieceColor.Black);
+                    CheckTessera(capture.secondPoint.row, capture.secondPoint.column, color == PieceColor.Black ? PieceColor.White : PieceColor.Black);
                 }
             }
 
@@ -180,6 +190,7 @@ namespace PenteLib.Controllers
         public static void SkipTurn()
         {
             game.isFirstPlayersTurn = !game.isFirstPlayersTurn;
+            game.Turn++;
         }
 
         private static Capture CheckCapture(Direction direction, int row, int col, PieceColor color)
@@ -255,6 +266,93 @@ namespace PenteLib.Controllers
             }
 
             return inARow;
+        }
+
+        private static bool CheckTessera(int row, int col, PieceColor pieceColor)
+        {
+            bool result = false;
+
+            // Up-Down
+            for(int i = 0; i < 4 && !result; i++)
+            {
+                Point[] points = new Point[6];
+                for(int j = 0; j < 6; j++)
+                {
+                    points[j] = new Point(row - j + i + 1, col);
+                }
+                TesseraResult tesseraResult = CheckInRange(points, pieceColor);
+                game.Tessera = tesseraResult.isTessera;
+                game.Tria = tesseraResult.isTria;
+
+                result = tesseraResult.isTessera || tesseraResult.isTria;
+            }
+            // Left-Right
+            for (int i = 0; i < 4 && !result; i++)
+            {
+                Point[] points = new Point[6];
+                for (int j = 0; j < 6; j++)
+                {
+                    points[j] = new Point(row, col - j + i + 1);
+                }
+                TesseraResult tesseraResult = CheckInRange(points, pieceColor);
+                game.Tessera = tesseraResult.isTessera;
+                game.Tria = tesseraResult.isTria;
+
+                result = tesseraResult.isTessera || tesseraResult.isTria;
+            }
+            // Diagonal \
+            for (int i = 0; i < 4 && !result; i++)
+            {
+                Point[] points = new Point[6];
+                for (int j = 0; j < 6; j++)
+                {
+                    points[j] = new Point(row - j + i + 1, col - j + i + 1);
+                }
+                TesseraResult tesseraResult = CheckInRange(points, pieceColor);
+                game.Tessera = tesseraResult.isTessera;
+                game.Tria = tesseraResult.isTria;
+
+                result = tesseraResult.isTessera || tesseraResult.isTria;
+            }
+            // Diagonal /
+            for (int i = 0; i < 4 && !result; i++)
+            {
+                Point[] points = new Point[6];
+                for (int j = 0; j < 6; j++)
+                {
+                    points[j] = new Point(row + j - i - 1, col - j + i + 1);
+                }
+                TesseraResult tesseraResult = CheckInRange(points, pieceColor);
+                game.Tessera = tesseraResult.isTessera;
+                game.Tria = tesseraResult.isTria;
+
+                result = tesseraResult.isTessera || tesseraResult.isTria;
+            }
+
+            return result;
+        }
+
+        private static TesseraResult CheckInRange(Point[] points, PieceColor pieceColor)
+        {
+            TesseraResult result = new TesseraResult();
+            if(points.Length == 6)
+            {
+                //makes sure the end points are open
+                if(game.GetPieceAt(points[0]) == PieceColor.Empty && game.GetPieceAt(points[5]) == PieceColor.Empty)
+                {
+                    result.isTria = true;
+                    result.isTessera = true;
+                    for(int i = 1; i < 5; i++)
+                    {
+                        if(game.GetPieceAt(points[i]) != pieceColor)
+                        {
+                            result.isTria = result.isTessera ? true : false;
+                            result.isTessera = false;
+                        }
+                    }
+                }
+            }
+            return result;
         }
 
         private static void AITurn()
