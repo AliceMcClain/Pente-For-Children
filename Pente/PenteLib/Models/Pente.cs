@@ -18,7 +18,17 @@ namespace PenteLib.Models
 
         private PieceColor[,] board;
 
-        public bool IsFirstPlayersTurn { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private bool isFirstPlayersTurn;
+
+        public bool IsFirstPlayersTurn { get => isFirstPlayersTurn; set {
+                isFirstPlayersTurn = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsFirstPlayersTurn"));
+            }
+        }
+
 
         public int FirstPlayerCaptures { get; set; }
 
