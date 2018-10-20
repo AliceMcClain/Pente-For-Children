@@ -188,6 +188,18 @@ namespace Pente
                     this.Close();
                 }
                 Time = 20;
+
+                // Display Tria/Tessera is it happened
+                if (PenteController.game.Tessera)
+                {
+                    MessageBox.Show("There is a Tessera!");
+                }
+                else if (PenteController.game.Tria)
+                {
+                    MessageBox.Show("There is a Tria!");
+                }
+                PenteController.game.Tessera = false;
+                PenteController.game.Tria = false;
             }
            
         }

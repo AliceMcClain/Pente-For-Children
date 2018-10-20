@@ -258,11 +258,11 @@ namespace PenteTests
             PenteController.StartGame(PlayMode.MultiPlayer, isDebug: true);
 
             //Set up
-            PenteController.game.SetPieceAt(0, 0, PieceColor.Black);
             PenteController.game.SetPieceAt(1, 1, PieceColor.Black);
+            PenteController.game.SetPieceAt(2, 2, PieceColor.Black);
 
             //Make Tria move
-            PenteController.TakeTurn(2, 2);
+            PenteController.TakeTurn(3, 3);
 
             bool expected = true;
             bool actual = PenteController.game.Tria;
@@ -312,11 +312,11 @@ namespace PenteTests
             PenteController.StartGame(PlayMode.MultiPlayer, isDebug: true);
 
             //Set up
-            PenteController.game.SetPieceAt(0, 0, PieceColor.Black);
             PenteController.game.SetPieceAt(1, 1, PieceColor.Black);
+            PenteController.game.SetPieceAt(2, 2, PieceColor.Black);
 
             //Make Tria move
-            PenteController.TakeTurn(3, 3);
+            PenteController.TakeTurn(4, 4);
 
             bool expected = true;
             bool actual = PenteController.game.Tria;

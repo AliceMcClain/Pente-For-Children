@@ -275,10 +275,16 @@ namespace PenteLib.Controllers
             // Up-Down
             for(int i = 0; i < 4 && !result; i++)
             {
+                bool validRange = true;
                 Point[] points = new Point[6];
-                for(int j = 0; j < 6; j++)
+                for(int j = 0; j < 6 && validRange; j++)
                 {
                     points[j] = new Point(row - j + i + 1, col);
+                    validRange = IsPointWithinBoard(points[j]);
+                }
+                if (!validRange)
+                {
+                    continue;
                 }
                 TesseraResult tesseraResult = CheckInRange(points, pieceColor);
                 game.Tessera = tesseraResult.isTessera;
@@ -289,10 +295,16 @@ namespace PenteLib.Controllers
             // Left-Right
             for (int i = 0; i < 4 && !result; i++)
             {
+                bool validRange = true;
                 Point[] points = new Point[6];
-                for (int j = 0; j < 6; j++)
+                for (int j = 0; j < 6 && validRange; j++)
                 {
                     points[j] = new Point(row, col - j + i + 1);
+                    validRange = IsPointWithinBoard(points[j]);
+                }
+                if (!validRange)
+                {
+                    continue;
                 }
                 TesseraResult tesseraResult = CheckInRange(points, pieceColor);
                 game.Tessera = tesseraResult.isTessera;
@@ -303,10 +315,16 @@ namespace PenteLib.Controllers
             // Diagonal \
             for (int i = 0; i < 4 && !result; i++)
             {
+                bool validRange = true;
                 Point[] points = new Point[6];
-                for (int j = 0; j < 6; j++)
+                for (int j = 0; j < 6 && validRange; j++)
                 {
                     points[j] = new Point(row - j + i + 1, col - j + i + 1);
+                    validRange = IsPointWithinBoard(points[j]);
+                }
+                if (!validRange)
+                {
+                    continue;
                 }
                 TesseraResult tesseraResult = CheckInRange(points, pieceColor);
                 game.Tessera = tesseraResult.isTessera;
@@ -317,10 +335,16 @@ namespace PenteLib.Controllers
             // Diagonal /
             for (int i = 0; i < 4 && !result; i++)
             {
+                bool validRange = true;
                 Point[] points = new Point[6];
-                for (int j = 0; j < 6; j++)
+                for (int j = 0; j < 6 && validRange; j++)
                 {
                     points[j] = new Point(row + j - i - 1, col - j + i + 1);
+                    validRange = IsPointWithinBoard(points[j]);
+                }
+                if (!validRange)
+                {
+                    continue;
                 }
                 TesseraResult tesseraResult = CheckInRange(points, pieceColor);
                 game.Tessera = tesseraResult.isTessera;
@@ -351,6 +375,15 @@ namespace PenteLib.Controllers
                         }
                     }
                 }
+            }
+            return result;
+        }
+        private static bool IsPointWithinBoard(Point point)
+        {
+            bool result = true;
+            if(point.row < 0 || point.row >= boardSize || point.column < 0 || point.column >= boardSize)
+            {
+                result = false;
             }
             return result;
         }
