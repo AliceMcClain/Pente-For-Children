@@ -1,7 +1,6 @@
 ﻿using PenteLib.Controllers;
 using PenteLib.Models;
 using System;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -10,26 +9,53 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Timers;
+using System.ComponentModel;
 
 namespace Pente
 {
     /// <summary>
     /// Interaction logic for GameWindow.xaml
     /// </summary>
-    public partial class GameWindow : Window
+    public partial class GameWindow : Window, INotifyPropertyChanged
     {
         StoneBoard board;
         UniformGrid stoneGrid;
-
+        private static int time = 0;
         private int boardSize;
+        private Timer timer;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public int Time {
+            get { return time; }
+            set
+            {
+                time = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Time"));
+            }
+        }
 
         public GameWindow(int boardSize, PlayMode playMode)
         {
             InitializeComponent();
+            Time = 20;
+
+            timer = new Timer();
+            timer.Interval = 1000;
+            timer.Elapsed += UpdateTimer;
+            timer.Start();
+
+            Binding b = new Binding()
+            {
+                Path = new PropertyPath("Time"),
+                Source = this
+            };
+            lblTime.SetBinding(ContentProperty, b);
 
             this.boardSize = boardSize;
 
-            PenteController.StartGame(playMode, boardSize: boardSize, isDebug: true);
+            PenteController.StartGame(playMode, BoardSize: boardSize, isDebug: true);
             board = new StoneBoard(boardSize);
 
             
@@ -37,6 +63,16 @@ namespace Pente
             SetUpStoneBoard();
             UpdateBoard();
            // AddRandomPieces();
+
+        }
+
+        private void UpdateTimer(object sender = null, ElapsedEventArgs e = null)
+        {
+            if(Time-- == 0)
+            {
+                PenteController.SkipTurn();
+                Time = 20;
+            }
 
         }
 
@@ -139,16 +175,21 @@ namespace Pente
             int row = index / columns;
             int col = index % columns;
 
-            PenteController.TakeTurn(row, col);
-            UpdateBoard();
-            if (PenteController.game.IsGameOver)
+            bool validMove = PenteController.TakeTurn(row, col);
+            if (validMove)
             {
-                //Gets the name of the winner, which is the current player's turn
-                string winner = PenteController.game.isFirstPlayersTurn ? lblPlayer1Name.Content.ToString() : lblPlayer2Name.Content.ToString(); 
-                WinWindow winWindow = new WinWindow(PenteController.game.PlayMode, winner, boardSize);
-                winWindow.Show();
-                this.Close();
+                UpdateBoard();
+                if (PenteController.game.IsGameOver)
+                {
+                    //Gets the name of the winner, which is the current player's turn
+                    string winner = PenteController.game.isFirstPlayersTurn ? lblPlayer1Name.Content.ToString() : lblPlayer2Name.Content.ToString();
+                    WinWindow winWindow = new WinWindow(PenteController.game.PlayMode, winner, boardSize);
+                    winWindow.Show();
+                    this.Close();
+                }
+                Time = 20;
             }
+           
         }
 
         #region Player name editting

@@ -33,11 +33,13 @@ namespace PenteLib.Controllers
 
         private static bool isDebug;
 
-        public static void StartGame(PlayMode playMode = PlayMode.SinglePlayer, bool isDebug = false, int boardSize = 19)
+        public static void StartGame(PlayMode playMode = PlayMode.SinglePlayer, bool isDebug = false, int BoardSize = 19)
         {
-            game = new Pente(playMode, boardSize);
+            game = new Pente(playMode, BoardSize);
             PenteController.isDebug = isDebug;
-        }
+            boardSize = BoardSize;
+            boardCenter = boardSize / 2;
+    }
 
         private static bool ValidateMove(int row, int column)
         {
@@ -173,6 +175,11 @@ namespace PenteLib.Controllers
             #endregion
 
             return false;
+        }
+
+        public static void SkipTurn()
+        {
+            game.isFirstPlayersTurn = !game.isFirstPlayersTurn;
         }
 
         private static Capture CheckCapture(Direction direction, int row, int col, PieceColor color)
