@@ -13,12 +13,12 @@ namespace Pente.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if(value.GetType() == typeof(int) && targetType == typeof(Brush) && parameter.GetType() == typeof(bool))
+            if(value.GetType() == typeof(bool) && targetType == typeof(Brush) && parameter.GetType() == typeof(bool))
             {
-                int intValue = (int)value;
+                bool boolValue = (bool)value;
                 bool boolParameter = (bool)parameter;
                 // if intValue % 2 is edd it is the first player's turn so parameter need to true to have color
-                if ((intValue % 2 == 1) == boolParameter)
+                if (boolValue == boolParameter)
                 {
                     return new SolidColorBrush(Color.FromArgb(200, 255, 255, 70));
                 }

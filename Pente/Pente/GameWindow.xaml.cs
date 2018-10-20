@@ -61,7 +61,7 @@ namespace Pente
 
             Binding p1 = new Binding()
             {
-                Path = new PropertyPath("Turn"),
+                Path = new PropertyPath("IsFirstPlayersTurn"),
                 Source = PenteController.game,
                 Converter = new BoolToColorConverter(),
                 ConverterParameter = true
@@ -70,7 +70,7 @@ namespace Pente
 
             Binding p2 = new Binding()
             {
-                Path = new PropertyPath("Turn"),
+                Path = new PropertyPath("IsFirstPlayersTurn"),
                 Source = PenteController.game,
                 Converter = new BoolToColorConverter(),
                 ConverterParameter = false
