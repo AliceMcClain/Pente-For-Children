@@ -1,30 +1,46 @@
 Testing for: To see a 19x19 board when the application is started.
-Steps to Recreate: Start the application, look at the board to see if there is a 19x19 board.
-Pass/Fail: Pass
+Steps to Recreate: 
+  1) Start the application
+  2) Look at the board to see if there is a 19x19 board.
+Pass/Fail: PASS
 
 Testing for: To see a board with playable spots when the application is started.
-Steps to Recreate: Start the application, look at the board to see if there are stones on the board.
-Pass/Fail: Pass
+Steps to Recreate: 
+  1) Start the application
+  2) look at the board to see if there are stones on the board.
+Pass/Fail: PASS
 
 Testing for: Main Menu with two play modes
-Steps to Recreate: Start the application, look to see if there is a main menu with two play modes
-Pass/Fail: Pass
+Steps to Recreate: 
+  1) Start the application
+  2) Look to see if there is a main menu with two play modes
+Pass/Fail: PASS
 
 Testing for: Single player game starts a single player game
-Steps to Recreate: Start the application, click on Single player, see if a single player games starts
-Pass/Fail:
+Steps to Recreate:
+  1) Start the application
+  2) Click on Single player
+  3) See if a single player games starts
+Pass/Fail: PASS
 
 Testing for: Multi player game starts a multi player game
-Steps to Recreate: Start the application, click on multi player, see if a multi player games starts
-Pass/Fail:
+Steps to Recreate:
+  1) Start the application
+  2) Click on multi player
+  3) See if a multi player games starts
+Pass/Fail: PASS
 
 Testing for: Clickable empty spots
-Steps to Recreate: Start a game, click on a spot where there is not a piece and see if a piece appears there
-Pass/Fail:
+Steps to Recreate:
+  1) Start a game
+  2) Click on a spot where there is not a piece and see if a piece appears there
+Pass/Fail: PASS
 
 Testing for: Non clickable spots where pieces are
-Steps to Recreate: Start a game, click on a spot where there is a piece and see if a piece appears there
-Pass/Fail:
+Steps to Recreate:
+  1) Start a game
+  2) Click on a spot where there is a piece and see if a piece appears there
+Pass/Fail: PASS
 
 
 

@@ -83,7 +83,7 @@ namespace PenteTests
         }
 
         [TestMethod]
-        public void CaptureTest()
+        public void CaptureTest_Horizantal()
         {
             PenteController.StartGame(PlayMode.MultiPlayer, true);
             //set up capture
@@ -98,6 +98,45 @@ namespace PenteTests
             var board = PenteController.game.Board;
 
             var actual = board[0, 2] == PieceColor.Empty && board[0, 3] == PieceColor.Empty;
+            var expected = true;
+
+            Assert.AreEqual(expected, actual);
+        }
+        [TestMethod]
+        public void CaptureTest_Vertical()
+        {
+            PenteController.StartGame(PlayMode.MultiPlayer, isDebug: true);
+
+            //Set up capture
+            PenteController.game.SetPieceAt(5, 5, PieceColor.Black);
+            PenteController.game.SetPieceAt(6, 5, PieceColor.White);
+            PenteController.game.SetPieceAt(7, 5, PieceColor.White);
+
+            //Make Capture move
+            PenteController.TakeTurn(8, 5);
+
+            var board = PenteController.game.Board;
+            var actual = board[6, 5] == PieceColor.Empty && board[7, 5] == PieceColor.Empty;
+            var expected = true;
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CaptureTest_Diagonal()
+        {
+            PenteController.StartGame(PlayMode.MultiPlayer, isDebug: true);
+
+            //Set up capture
+            PenteController.game.SetPieceAt(5, 5, PieceColor.Black);
+            PenteController.game.SetPieceAt(6, 6, PieceColor.White);
+            PenteController.game.SetPieceAt(7, 7, PieceColor.White);
+
+            //make Capture move
+            PenteController.TakeTurn(8, 8);
+
+            var board = PenteController.game.Board;
+            var actual = board[6, 6] == PieceColor.Empty && board[7, 7] == PieceColor.Empty;
             var expected = true;
 
             Assert.AreEqual(expected, actual);
@@ -377,6 +416,18 @@ namespace PenteTests
 
             bool expected = true;
             bool actual = PenteController.game.Tessera;
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void FirstPlayer_FirstMove_OnlyAbleToPlaceOnCenter()
+        {
+            PenteController.StartGame();
+
+            //Try to place piece somewhere other than the center
+            bool actual = PenteController.TakeTurn(0, 0);
+            bool expected = false;
 
             Assert.AreEqual(expected, actual);
         }
