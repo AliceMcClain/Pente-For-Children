@@ -23,16 +23,20 @@ namespace Pente
         {
             InitializeComponent();
         }
-
+        private void Instructions_Click(object sender, RoutedEventArgs e)
+        {
+            InstructionsWindow window = new InstructionsWindow();
+            window.Show();
+        }
         private void Single_Click(object sender, RoutedEventArgs e)
         {
-            GameWindow window = new GameWindow(PenteLib.Models.PlayMode.SinglePlayer);
+            GameWindow window = new GameWindow((int)sldrBoardSize.Value, PenteLib.Models.PlayMode.SinglePlayer);
             window.Show();
             this.Close();
         }
         private void Multi_Click(object sender, RoutedEventArgs e)
         {
-            GameWindow window = new GameWindow(PenteLib.Models.PlayMode.MultiPlayer);
+            GameWindow window = new GameWindow((int)sldrBoardSize.Value, PenteLib.Models.PlayMode.MultiPlayer);
             window.Show();
             this.Close();
         }

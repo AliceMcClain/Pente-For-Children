@@ -1,6 +1,7 @@
 ﻿using PenteLib.Controllers;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,9 +16,19 @@ namespace PenteLib.Models
 
         public bool Tessera { get; set; }
 
-        private PieceColor[,] board = new PieceColor[19,19];
+        private PieceColor[,] board;
 
-        public bool isFirstPlayersTurn { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private bool isFirstPlayersTurn;
+
+        public bool IsFirstPlayersTurn { get => isFirstPlayersTurn; set {
+                isFirstPlayersTurn = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsFirstPlayersTurn"));
+            }
+        }
+
 
         public int FirstPlayerCaptures { get; set; }
 
@@ -28,10 +39,12 @@ namespace PenteLib.Models
         public PieceColor[,] Board { get => board; set => board = value; }
         public PlayMode PlayMode { get; set; }
 
-        public Pente(PlayMode playMode)
+        public Pente(PlayMode playMode, int boardSize)
         {
+            board = new PieceColor[boardSize, boardSize];
+
             PlayMode = playMode;
-            isFirstPlayersTurn = true;
+            IsFirstPlayersTurn = true;
             IsGameOver = false;
             FirstPlayerCaptures = 0;
             SecondPlayerCaptures = 0;
@@ -43,6 +56,11 @@ namespace PenteLib.Models
         public PieceColor GetPieceAt(int row, int column)
         {
             return Board[row, column];
+        }
+
+        public PieceColor GetPieceAt(Point point)
+        {
+            return GetPieceAt(point.row, point.column);
         }
 
         public void SetPieceAt(int row, int column, PieceColor pieceColor)

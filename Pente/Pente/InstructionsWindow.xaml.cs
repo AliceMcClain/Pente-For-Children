@@ -15,13 +15,18 @@ using System.Windows.Shapes;
 namespace Pente
 {
     /// <summary>
-    /// Interaction logic for WinningScreen.xaml
+    /// Interaction logic for InstructionsWindow.xaml
     /// </summary>
-    public partial class WinningScreen : Window
+    public partial class InstructionsWindow : Window
     {
-        public WinningScreen()
+        public InstructionsWindow()
         {
             InitializeComponent();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

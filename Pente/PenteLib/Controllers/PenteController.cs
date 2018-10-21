@@ -24,6 +24,11 @@ namespace PenteLib.Controllers
         public Point firstPoint;
         public Point secondPoint;
     }
+    struct TesseraResult
+    {
+        public bool isTria;
+        public bool isTessera;
+    }
     public static class PenteController
     {
         public static Pente game;
@@ -33,11 +38,13 @@ namespace PenteLib.Controllers
 
         private static bool isDebug;
 
-        public static void StartGame(PlayMode playMode = PlayMode.SinglePlayer, bool isDebug = false)
+        public static void StartGame(PlayMode playMode = PlayMode.SinglePlayer, bool isDebug = false, int BoardSize = 19)
         {
-            game = new Pente(playMode);
+            game = new Pente(playMode, BoardSize);
             PenteController.isDebug = isDebug;
-        }
+            boardSize = BoardSize;
+            boardCenter = boardSize / 2;
+    }
 
         private static bool ValidateMove(int row, int column)
         {
@@ -72,9 +79,11 @@ namespace PenteLib.Controllers
 
         private static void ProcessMove(int row, int column)
         {
-            PieceColor color = game.isFirstPlayersTurn ? PieceColor.Black : PieceColor.White;
+            PieceColor color = game.IsFirstPlayersTurn ? PieceColor.Black : PieceColor.White;
 
             game.SetPieceAt(row, column, color);
+
+            CheckTessera(row, column, color);
 
             game.IsGameOver = CheckForWinner(row, column, color);
 
@@ -83,7 +92,7 @@ namespace PenteLib.Controllers
             // Alternates player turn if the game isn't over
             if (!game.IsGameOver)
             {
-                game.isFirstPlayersTurn = !game.isFirstPlayersTurn;
+                game.IsFirstPlayersTurn = !game.IsFirstPlayersTurn;
             }
         }
 
@@ -96,7 +105,7 @@ namespace PenteLib.Controllers
                 ProcessMove(row, column);
 
                 // If you are vs AI, the game isn't over, and it is the AI's turn: take the AI's Turn
-                if (game.PlayMode == PlayMode.SinglePlayer && !game.IsGameOver && !game.isFirstPlayersTurn)
+                if (game.PlayMode == PlayMode.SinglePlayer && !game.IsGameOver && !game.IsFirstPlayersTurn)
                 {
                     AITurn();
                 }
@@ -113,7 +122,7 @@ namespace PenteLib.Controllers
                 if (capture.captured)
                 {
                     // Adds to the capture amount of the player whose turn it is
-                    if (game.isFirstPlayersTurn)
+                    if (game.IsFirstPlayersTurn)
                     {
                         game.FirstPlayerCaptures++;
                     }
@@ -125,6 +134,9 @@ namespace PenteLib.Controllers
                     //Removes the captured pieces
                     game.SetPieceAt(capture.firstPoint, PieceColor.Empty);
                     game.SetPieceAt(capture.secondPoint, PieceColor.Empty);
+
+                    CheckTessera(capture.firstPoint.row, capture.firstPoint.column, color == PieceColor.Black ? PieceColor.White : PieceColor.Black);
+                    CheckTessera(capture.secondPoint.row, capture.secondPoint.column, color == PieceColor.Black ? PieceColor.White : PieceColor.Black);
                 }
             }
 
@@ -173,6 +185,17 @@ namespace PenteLib.Controllers
             #endregion
 
             return false;
+        }
+
+        public static void SkipTurn()
+        {
+            game.IsFirstPlayersTurn = !game.IsFirstPlayersTurn;
+            game.Turn++;
+            
+            if(game.PlayMode == PlayMode.SinglePlayer)
+            {
+                AITurn();
+            }
         }
 
         private static Capture CheckCapture(Direction direction, int row, int col, PieceColor color)
@@ -248,6 +271,131 @@ namespace PenteLib.Controllers
             }
 
             return inARow;
+        }
+
+        private static bool CheckTessera(int row, int col, PieceColor pieceColor)
+        {
+            bool result = false;
+
+            // Up-Down
+            for(int i = 0; i < 4 && !result; i++)
+            {
+                bool validRange = true;
+                Point[] points = new Point[6];
+                for(int j = 0; j < 6 && validRange; j++)
+                {
+                    points[j] = new Point(row - j + i + 1, col);
+                    validRange = IsPointWithinBoard(points[j]);
+                }
+                if (!validRange)
+                {
+                    continue;
+                }
+                TesseraResult tesseraResult = CheckInRange(points, pieceColor);
+                game.Tessera = tesseraResult.isTessera;
+                game.Tria = tesseraResult.isTria;
+
+                result = tesseraResult.isTessera || tesseraResult.isTria;
+            }
+            // Left-Right
+            for (int i = 0; i < 4 && !result; i++)
+            {
+                bool validRange = true;
+                Point[] points = new Point[6];
+                for (int j = 0; j < 6 && validRange; j++)
+                {
+                    points[j] = new Point(row, col - j + i + 1);
+                    validRange = IsPointWithinBoard(points[j]);
+                }
+                if (!validRange)
+                {
+                    continue;
+                }
+                TesseraResult tesseraResult = CheckInRange(points, pieceColor);
+                game.Tessera = tesseraResult.isTessera;
+                game.Tria = tesseraResult.isTria;
+
+                result = tesseraResult.isTessera || tesseraResult.isTria;
+            }
+            // Diagonal \
+            for (int i = 0; i < 4 && !result; i++)
+            {
+                bool validRange = true;
+                Point[] points = new Point[6];
+                for (int j = 0; j < 6 && validRange; j++)
+                {
+                    points[j] = new Point(row - j + i + 1, col - j + i + 1);
+                    validRange = IsPointWithinBoard(points[j]);
+                }
+                if (!validRange)
+                {
+                    continue;
+                }
+                TesseraResult tesseraResult = CheckInRange(points, pieceColor);
+                game.Tessera = tesseraResult.isTessera;
+                game.Tria = tesseraResult.isTria;
+
+                result = tesseraResult.isTessera || tesseraResult.isTria;
+            }
+            // Diagonal /
+            for (int i = 0; i < 4 && !result; i++)
+            {
+                bool validRange = true;
+                Point[] points = new Point[6];
+                for (int j = 0; j < 6 && validRange; j++)
+                {
+                    points[j] = new Point(row + j - i - 1, col - j + i + 1);
+                    validRange = IsPointWithinBoard(points[j]);
+                }
+                if (!validRange)
+                {
+                    continue;
+                }
+                TesseraResult tesseraResult = CheckInRange(points, pieceColor);
+                game.Tessera = tesseraResult.isTessera;
+                game.Tria = tesseraResult.isTria;
+
+                result = tesseraResult.isTessera || tesseraResult.isTria;
+            }
+
+            return result;
+        }
+
+        private static TesseraResult CheckInRange(Point[] points, PieceColor pieceColor)
+        {
+            TesseraResult result = new TesseraResult();
+            if(points.Length == 6)
+            {
+                //makes sure the end points are open
+                if(game.GetPieceAt(points[0]) == PieceColor.Empty && game.GetPieceAt(points[5]) == PieceColor.Empty)
+                {
+                    result.isTria = true;
+                    result.isTessera = true;
+                    for(int i = 1; i < 5; i++)
+                    {
+                        if(game.GetPieceAt(points[i]) == PieceColor.Empty)
+                        {
+                            result.isTria = result.isTessera ? true : false;
+                            result.isTessera = false;
+                        }
+                        else if(game.GetPieceAt(points[i]) != pieceColor)
+                        {
+                            result.isTria = false;
+                            result.isTessera = false;
+                        }
+                    }
+                }
+            }
+            return result;
+        }
+        private static bool IsPointWithinBoard(Point point)
+        {
+            bool result = true;
+            if(point.row < 0 || point.row >= boardSize || point.column < 0 || point.column >= boardSize)
+            {
+                result = false;
+            }
+            return result;
         }
 
         private static void AITurn()

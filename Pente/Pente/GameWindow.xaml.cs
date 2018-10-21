@@ -9,29 +9,121 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Timers;
+using System.ComponentModel;
+using Pente.Converters;
 
 namespace Pente
 {
     /// <summary>
     /// Interaction logic for GameWindow.xaml
     /// </summary>
-    public partial class GameWindow : Window
+    public partial class GameWindow : Window, INotifyPropertyChanged
     {
         StoneBoard board;
         UniformGrid stoneGrid;
+        private static int time = 0;
+        private static Brush player1NameBackground = new SolidColorBrush(Color.FromArgb(200, 255, 255, 70));
+        private static Brush player2NameBackground = Brushes.Transparent;
+        private int boardSize;
+        private Timer timer;
 
-        public GameWindow(PlayMode playMode = PlayMode.SinglePlayer)
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public int Time {
+            get => time;
+            set
+            {
+                time = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Time"));
+            }
+        }
+
+        public Brush Player1NameBackground {
+            get => player1NameBackground;
+            set
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Player1NameBackground"));
+                player1NameBackground = value;
+            }
+        }
+        public Brush Player2NameBackground
+        {
+            get => player2NameBackground;
+            set
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Player2NameBackground"));
+                player2NameBackground = value;
+            }
+        }
+
+        public GameWindow(int boardSize, PlayMode playMode)
         {
             InitializeComponent();
+            Time = 20;
 
-            PenteController.StartGame(playMode);
-            board = new StoneBoard();
+            timer = new Timer();
+            timer.Interval = 1000;
+            timer.Elapsed += UpdateTimer;
+            timer.Start();
 
+            Binding b = new Binding()
+            {
+                Path = new PropertyPath("Time"),
+                Source = this
+            };
+            lblTime.SetBinding(ContentProperty, b);
+
+            Binding p1 = new Binding()
+            {
+
+                Path = new PropertyPath("IsFirstPlayersTurn"),
+                Source = PenteController.game,
+                Converter = new BoolToColorConverter(),
+                ConverterParameter = true
+            };
+            lblPlayer1Name.SetBinding(BackgroundProperty, p1);
+
+            Binding p2 = new Binding()
+            {
+
+                Path = new PropertyPath("IsFirstPlayersTurn"),
+                Source = PenteController.game,
+                Converter = new BoolToColorConverter(),
+                ConverterParameter = false
+            };
+            lblPlayer2Name.SetBinding(BackgroundProperty, p2);
+
+            this.boardSize = boardSize;
+
+            PenteController.StartGame(playMode, BoardSize: boardSize, isDebug: true);
+            board = new StoneBoard(boardSize);
             
             SetGameSquares();
             SetUpStoneBoard();
             UpdateBoard();
            // AddRandomPieces();
+
+        }
+
+        private void UpdateTimer(object sender = null, ElapsedEventArgs e = null)
+        {
+            if(Time-- == 0)
+            {
+                PenteController.SkipTurn();
+                Time = 20;
+
+                if (PenteController.game.IsFirstPlayersTurn)
+                {
+                    Player1NameBackground = new SolidColorBrush(Color.FromArgb(200, 255, 255, 70));
+                    Player2NameBackground = Brushes.Transparent;
+                }
+                else
+                {
+                    Player2NameBackground = new SolidColorBrush(Color.FromArgb(200, 255, 255, 70));
+                    Player1NameBackground = Brushes.Transparent;
+                }
+            }
 
         }
 
@@ -57,7 +149,7 @@ namespace Pente
         //Creates the Green squares you see
         private void SetGameSquares()
         {
-            UniformGrid squares = new UniformGrid { Rows = 18, Columns = 18, Margin = new Thickness(25) };
+            UniformGrid squares = new UniformGrid { Rows = boardSize-1, Columns = boardSize-1, Margin = new Thickness(25) };
             SolidColorBrush color = new SolidColorBrush(Colors.Green);
             Rectangle square;
 
@@ -81,7 +173,7 @@ namespace Pente
         //Creats a board to set the stones on.
         private void SetUpStoneBoard()
         {
-            stoneGrid = new UniformGrid { Rows = 19, Columns = 19, Margin = new Thickness(11) };
+            stoneGrid = new UniformGrid { Rows = boardSize, Columns = boardSize, Margin = new Thickness(11) };
             StoneSpace stoneSpace;
             Binding imageBinding;
 
@@ -134,8 +226,46 @@ namespace Pente
             int row = index / columns;
             int col = index % columns;
 
-            PenteController.TakeTurn(row, col);
-            UpdateBoard();
+            bool validMove = PenteController.TakeTurn(row, col);
+            if (validMove)
+            {
+                UpdateBoard();
+                if (PenteController.game.IsGameOver)
+                {
+                    //Gets the name of the winner, which is the current player's turn
+                    string winner = PenteController.game.IsFirstPlayersTurn ? lblPlayer1Name.Content.ToString() : lblPlayer2Name.Content.ToString();
+                    WinWindow winWindow = new WinWindow(PenteController.game.PlayMode, winner, boardSize);
+                    timer.Stop();
+
+                    winWindow.Show();
+                    this.Close();
+                }
+                Time = 20;
+
+                if (PenteController.game.IsFirstPlayersTurn)
+                {
+                    Player1NameBackground = new SolidColorBrush(Color.FromArgb(200, 255, 255, 70));
+                    Player2NameBackground = Brushes.Transparent;
+                }
+                else
+                {
+                    Player2NameBackground = new SolidColorBrush(Color.FromArgb(200, 255, 255, 70));
+                    Player1NameBackground = Brushes.Transparent;
+                }
+
+                // Display Tria/Tessera is it happened
+                if (PenteController.game.Tessera)
+                {
+                    MessageBox.Show("There is a Tessera!");
+                }
+                else if (PenteController.game.Tria)
+                {
+                    MessageBox.Show("There is a Tria!");
+                }
+                PenteController.game.Tessera = false;
+                PenteController.game.Tria = false;
+            }
+           
         }
 
         #region Player name editting
