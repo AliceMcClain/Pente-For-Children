@@ -149,7 +149,8 @@ namespace Pente
         //Creates the Green squares you see
         private void SetGameSquares()
         {
-            UniformGrid squares = new UniformGrid { Rows = boardSize-1, Columns = boardSize-1, Margin = new Thickness(25) };
+            int thickness = GetThickness();
+            UniformGrid squares = new UniformGrid { Rows = boardSize-1, Columns = boardSize-1, Margin = new Thickness(thickness) };
             SolidColorBrush color = new SolidColorBrush(Colors.Green);
             Rectangle square;
 
@@ -168,6 +169,35 @@ namespace Pente
             }
 
             MainGrid.Children.Add(squares);
+        }
+
+        private int GetThickness()
+        {
+            if (boardSize <= 11)
+                return 35;
+
+            else if (boardSize <= 15)
+                return 30;
+
+            else if (boardSize == 17)
+                return 26;
+
+            else if (boardSize == 19)
+                return 25;
+
+            else if (boardSize <= 25)
+                return 23;
+
+            else if (boardSize <= 29)
+                return 20;
+
+            else if (boardSize == 31)
+                return 17;
+
+            else if (boardSize <= 39)
+                return 16;
+
+            else return 0;
         }
 
         //Creats a board to set the stones on.
@@ -198,6 +228,7 @@ namespace Pente
                     stoneSpace.CircleImage.SetBinding(Image.SourceProperty, imageBinding);
 
                     stoneSpace.MouseDown += BoardPiece_Click;
+
 
                     stoneGrid.Children.Add(stoneSpace);
                 }
