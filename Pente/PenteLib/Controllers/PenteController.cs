@@ -52,7 +52,7 @@ namespace PenteLib.Controllers
             }
         }
 
-        private static bool ValidateMove(int row, int column)
+        public static bool ValidateMove(int row, int column)
         {
             bool result = false;
             if (game.Turn == 1 && !isDebug)

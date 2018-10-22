@@ -114,16 +114,7 @@ namespace Pente
                 PenteController.SkipTurn();
                 Time = 20;
 
-                if (PenteController.game.IsFirstPlayersTurn)
-                {
-                    Player1NameBackground = new SolidColorBrush(Color.FromArgb(200, 255, 255, 70));
-                    Player2NameBackground = Brushes.Transparent;
-                }
-                else
-                {
-                    Player2NameBackground = new SolidColorBrush(Color.FromArgb(200, 255, 255, 70));
-                    Player1NameBackground = Brushes.Transparent;
-                }
+                UpdateBoard();
             }
 
         }
@@ -229,6 +220,8 @@ namespace Pente
                     stoneSpace.CircleImage.SetBinding(Image.SourceProperty, imageBinding);
 
                     stoneSpace.MouseDown += BoardPiece_Click;
+                    stoneSpace.MouseEnter += BoardPiece_Hover;
+                    stoneSpace.MouseLeave += BoardPiece_LeaveHover;
 
 
                     stoneGrid.Children.Add(stoneSpace);
@@ -248,6 +241,25 @@ namespace Pente
                     board[i, j].PieceColor = penteBoard[i, j];
                 }
             }
+        }
+
+        private void BoardPiece_Hover(object sender, MouseEventArgs e)
+        {
+            int columns = stoneGrid.Columns;
+            int index = stoneGrid.Children.IndexOf((StoneSpace)sender);
+
+            int row = index / columns;
+            int col = index % columns;
+            bool validMove = PenteController.ValidateMove(row, col);
+            if (validMove)
+            {
+                board[row, col].PieceColor = PenteController.game.IsFirstPlayersTurn ? PieceColor.Black : PieceColor.White;
+            }
+        }
+
+        private void BoardPiece_LeaveHover(object sender, MouseEventArgs e)
+        {
+            UpdateBoard();
         }
 
         private void BoardPiece_Click(object sender, MouseButtonEventArgs e)
@@ -273,17 +285,6 @@ namespace Pente
                     this.Close();
                 }
                 Time = 20;
-
-                if (PenteController.game.IsFirstPlayersTurn)
-                {
-                    Player1NameBackground = new SolidColorBrush(Color.FromArgb(200, 255, 255, 70));
-                    Player2NameBackground = Brushes.Transparent;
-                }
-                else
-                {
-                    Player2NameBackground = new SolidColorBrush(Color.FromArgb(200, 255, 255, 70));
-                    Player1NameBackground = Brushes.Transparent;
-                }
 
                 // Display Tria/Tessera is it happened
                 if (PenteController.game.Tessera)
