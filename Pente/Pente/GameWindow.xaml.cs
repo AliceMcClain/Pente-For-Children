@@ -315,6 +315,7 @@ namespace Pente
             MainWindow window = new MainWindow();
             window.Show();
             this.Close();
+            timer.Stop();
         }
 
         #region Player name editting
