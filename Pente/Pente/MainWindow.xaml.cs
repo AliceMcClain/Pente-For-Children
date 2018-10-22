@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PenteLib.Controllers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,11 +23,17 @@ namespace Pente
         public MainWindow()
         {
             InitializeComponent();
+            PenteController.InstructionsOpen = false;
         }
         private void Instructions_Click(object sender, RoutedEventArgs e)
         {
-            InstructionsWindow window = new InstructionsWindow();
-            window.Show();
+            if(!PenteController.InstructionsOpen )
+            {
+                PenteController.InstructionsOpen = true;
+                InstructionsWindow window = new InstructionsWindow();
+                window.Show();
+            }
+            
         }
         private void Single_Click(object sender, RoutedEventArgs e)
         {
@@ -39,6 +46,10 @@ namespace Pente
             GameWindow window = new GameWindow((int)sldrBoardSize.Value, PenteLib.Models.PlayMode.MultiPlayer);
             window.Show();
             this.Close();
+        }
+        private void Exit_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Application.Current.Shutdown();
         }
     }
 }

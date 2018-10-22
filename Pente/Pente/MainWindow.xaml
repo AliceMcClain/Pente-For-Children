@@ -13,6 +13,7 @@
         <Label Content="Board Size:" HorizontalAlignment="Left" Margin="275,93,0,0" VerticalAlignment="Top" Width="89" FontSize="15"/>
         <Label Content="{Binding ElementName=sldrBoardSize, Path=Value}" HorizontalAlignment="Left" Margin="364,93,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.228,0.53" Width="39" FontSize="15"/>
         <Button Content="Instructions" HorizontalAlignment="Left" Margin="275,271,0,0" VerticalAlignment="Top" Width="250" FontSize="30" Click="Instructions_Click"/>
+        <Button Content="Exit" HorizontalAlignment="Left" Margin="275,329,0,0" VerticalAlignment="Top" Width="250" FontSize="30" Click="Exit_Click"/>
 
     </Grid>
 </Window>

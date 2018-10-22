@@ -38,12 +38,15 @@ namespace PenteLib.Controllers
 
         private static bool isDebug;
 
+        public static bool InstructionsOpen = false;
+
         public static void StartGame(PlayMode playMode = PlayMode.SinglePlayer, bool isDebug = false, int BoardSize = 19)
         {
             game = new Pente(playMode, BoardSize);
             PenteController.isDebug = isDebug;
             boardSize = BoardSize;
             boardCenter = boardSize / 2;
+            TakeTurn(boardCenter, boardCenter);
     }
 
         private static bool ValidateMove(int row, int column)
@@ -275,10 +278,11 @@ namespace PenteLib.Controllers
 
         private static bool CheckTessera(int row, int col, PieceColor pieceColor)
         {
-            bool result = false;
+            TesseraResult result = new TesseraResult();
+
 
             // Up-Down
-            for(int i = 0; i < 4 && !result; i++)
+            for(int i = 0; i < 4 && !result.isTessera; i++)
             {
                 bool validRange = true;
                 Point[] points = new Point[6];
@@ -292,13 +296,15 @@ namespace PenteLib.Controllers
                     continue;
                 }
                 TesseraResult tesseraResult = CheckInRange(points, pieceColor);
-                game.Tessera = tesseraResult.isTessera;
-                game.Tria = tesseraResult.isTria;
 
-                result = tesseraResult.isTessera || tesseraResult.isTria;
+                game.Tessera = tesseraResult.isTessera ? tesseraResult.isTessera : game.Tessera;
+                game.Tria = tesseraResult.isTria ? tesseraResult.isTria : game.Tria;
+                
+                if(tesseraResult.isTessera || tesseraResult.isTria)
+                    result = tesseraResult;
             }
             // Left-Right
-            for (int i = 0; i < 4 && !result; i++)
+            for (int i = 0; i < 4 && !result.isTessera; i++)
             {
                 bool validRange = true;
                 Point[] points = new Point[6];
@@ -312,13 +318,15 @@ namespace PenteLib.Controllers
                     continue;
                 }
                 TesseraResult tesseraResult = CheckInRange(points, pieceColor);
-                game.Tessera = tesseraResult.isTessera;
-                game.Tria = tesseraResult.isTria;
 
-                result = tesseraResult.isTessera || tesseraResult.isTria;
+                game.Tessera = tesseraResult.isTessera ? tesseraResult.isTessera : game.Tessera;
+                game.Tria = tesseraResult.isTria ? tesseraResult.isTria : game.Tria;
+
+                if (tesseraResult.isTessera || tesseraResult.isTria)
+                    result = tesseraResult;
             }
             // Diagonal \
-            for (int i = 0; i < 4 && !result; i++)
+            for (int i = 0; i < 4 && !result.isTessera; i++)
             {
                 bool validRange = true;
                 Point[] points = new Point[6];
@@ -332,13 +340,15 @@ namespace PenteLib.Controllers
                     continue;
                 }
                 TesseraResult tesseraResult = CheckInRange(points, pieceColor);
-                game.Tessera = tesseraResult.isTessera;
-                game.Tria = tesseraResult.isTria;
 
-                result = tesseraResult.isTessera || tesseraResult.isTria;
+                game.Tessera = tesseraResult.isTessera ? tesseraResult.isTessera : game.Tessera;
+                game.Tria = tesseraResult.isTria ? tesseraResult.isTria : game.Tria;
+
+                if (tesseraResult.isTessera || tesseraResult.isTria)
+                    result = tesseraResult;
             }
             // Diagonal /
-            for (int i = 0; i < 4 && !result; i++)
+            for (int i = 0; i < 4 && !result.isTessera; i++)
             {
                 bool validRange = true;
                 Point[] points = new Point[6];
@@ -352,13 +362,15 @@ namespace PenteLib.Controllers
                     continue;
                 }
                 TesseraResult tesseraResult = CheckInRange(points, pieceColor);
-                game.Tessera = tesseraResult.isTessera;
-                game.Tria = tesseraResult.isTria;
 
-                result = tesseraResult.isTessera || tesseraResult.isTria;
+                game.Tessera = tesseraResult.isTessera ? tesseraResult.isTessera : game.Tessera;
+                game.Tria = tesseraResult.isTria ? tesseraResult.isTria : game.Tria;
+
+                if (tesseraResult.isTessera || tesseraResult.isTria)
+                    result = tesseraResult;
             }
 
-            return result;
+            return result.isTessera || result.isTria;
         }
 
         private static TesseraResult CheckInRange(Point[] points, PieceColor pieceColor)

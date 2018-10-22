@@ -28,6 +28,7 @@ namespace Pente
         private int boardSize;
         private Timer timer;
 
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public int Time {
@@ -96,7 +97,7 @@ namespace Pente
 
             this.boardSize = boardSize;
 
-            PenteController.StartGame(playMode, BoardSize: boardSize, isDebug: true);
+            PenteController.StartGame(playMode, BoardSize: boardSize, isDebug: false);
             board = new StoneBoard(boardSize);
             
             SetGameSquares();
@@ -297,6 +298,23 @@ namespace Pente
                 PenteController.game.Tria = false;
             }
            
+        }
+
+        private void Instructions_Click(object sender, RoutedEventArgs e)
+        {
+            if (!PenteController.InstructionsOpen)
+            {
+                PenteController.InstructionsOpen = true;
+                InstructionsWindow window = new InstructionsWindow();
+                window.Show();
+            }
+        }
+
+        private void MainMenu_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow window = new MainWindow();
+            window.Show();
+            this.Close();
         }
 
         #region Player name editting

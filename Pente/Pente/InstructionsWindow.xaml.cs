@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PenteLib.Controllers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,6 +27,7 @@ namespace Pente
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            PenteController.InstructionsOpen = false;
             this.Close();
         }
     }
