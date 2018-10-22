@@ -75,7 +75,8 @@ namespace Pente
             };
             lblTime.SetBinding(ContentProperty, b);
 
-            Binding p1 = new Binding()
+            // Removed the player highlighting because we now have a piece hover to show whos turn it is
+            /*Binding p1 = new Binding()
             {
 
                 Path = new PropertyPath("IsFirstPlayersTurn"),
@@ -94,7 +95,7 @@ namespace Pente
                 ConverterParameter = false
             };
             lblPlayer2Name.SetBinding(BackgroundProperty, p2);
-
+            */
             this.boardSize = boardSize;
 
             PenteController.StartGame(playMode, BoardSize: boardSize, isDebug: false);
