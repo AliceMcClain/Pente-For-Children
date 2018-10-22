@@ -96,7 +96,7 @@ namespace Pente
 
             this.boardSize = boardSize;
 
-            PenteController.StartGame(playMode, BoardSize: boardSize, isDebug: true);
+            PenteController.StartGame(playMode, BoardSize: boardSize, isDebug: false);
             board = new StoneBoard(boardSize);
             
             SetGameSquares();

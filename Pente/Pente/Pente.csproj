@@ -141,6 +141,11 @@
   <ItemGroup>
     <Resource Include="Resource\edit.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resource\BlackCircle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\WhiteCircle.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
