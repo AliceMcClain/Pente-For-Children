@@ -15,8 +15,8 @@ namespace Pente
         private BitmapImage _image;
         private PieceColor _stoneColor;
 
-        private static BitmapImage blueStone = new BitmapImage(new Uri("../Resource/BlueCircle.png", UriKind.Relative));
-        private static BitmapImage yellowStone = new BitmapImage(new Uri("../Resource/YellowCircle.png", UriKind.Relative));
+        private static BitmapImage blackStone = new BitmapImage(new Uri("../Resource/BlackCircle.png", UriKind.Relative));
+        private static BitmapImage whiteStone = new BitmapImage(new Uri("../Resource/WhiteCircle.png", UriKind.Relative));
         private static BitmapImage emptyStone = new BitmapImage(new Uri("../Resource/EmptyCircle.png", UriKind.Relative));
 
         public BitmapImage Image
@@ -38,11 +38,11 @@ namespace Pente
 
                 if (value == PieceColor.Black)
                 {
-                    Image = blueStone;
+                    Image = blackStone;
                 }
                 else if (value == PieceColor.White)
                 {
-                    Image = yellowStone;
+                    Image = whiteStone;
                 }
                 else
                 {
