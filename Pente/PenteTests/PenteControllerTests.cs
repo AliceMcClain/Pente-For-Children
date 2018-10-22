@@ -431,5 +431,65 @@ namespace PenteTests
 
             Assert.AreEqual(expected, actual);
         }
+
+        [TestMethod]
+        public void FiveCapturesEndGame()
+        {
+            PenteController.StartGame(PlayMode.MultiPlayer, isDebug: true);
+
+            //first capture
+            PenteController.TakeTurn(0, 0);//1
+            PenteController.TakeTurn(0, 1);
+            PenteController.TakeTurn(1, 0);//1
+            PenteController.TakeTurn(0, 2);
+            PenteController.TakeTurn(0, 3);//1
+            //second capture
+            PenteController.TakeTurn(1, 1);
+            PenteController.TakeTurn(2, 0);//1
+            PenteController.TakeTurn(1, 2);
+            PenteController.TakeTurn(1, 3);//1
+            //third capture
+            PenteController.TakeTurn(2, 1);
+            PenteController.TakeTurn(3, 0);//1
+            PenteController.TakeTurn(2, 2);
+            PenteController.TakeTurn(2, 3);//1
+            //fourth capture
+            PenteController.TakeTurn(3, 1);
+            PenteController.TakeTurn(4, 0);//1
+            PenteController.TakeTurn(3, 2);
+            PenteController.TakeTurn(3, 3);//1
+            //fifth capture
+            PenteController.TakeTurn(4, 1);
+            PenteController.TakeTurn(5, 0);//1
+            PenteController.TakeTurn(4, 2);
+            PenteController.TakeTurn(4, 3);//1
+
+            bool actual = PenteController.game.IsGameOver;
+            bool expected = true;
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void FivePiecesInARowEndGame()
+        {
+            PenteController.StartGame(PlayMode.MultiPlayer, isDebug: true);
+
+            //first capture
+            PenteController.TakeTurn(0, 0);//1
+            PenteController.TakeTurn(1, 0);
+            PenteController.TakeTurn(0, 1);//1
+            PenteController.TakeTurn(1, 1);
+            PenteController.TakeTurn(0, 2);//1
+            PenteController.TakeTurn(1, 2);
+            PenteController.TakeTurn(0, 3);//1
+            PenteController.TakeTurn(1, 3);
+            PenteController.TakeTurn(0, 4);//1
+
+            bool actual = PenteController.game.IsGameOver;
+            bool expected = true;
+
+            Assert.AreEqual(expected, actual);
+        }
     }
 }
