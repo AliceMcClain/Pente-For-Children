@@ -17,7 +17,7 @@ namespace Pente.Converters
             {
                 bool boolValue = (bool)value;
                 bool boolParameter = (bool)parameter;
-                // if intValue % 2 is edd it is the first player's turn so parameter need to true to have color
+                // if both values are true, it is that players turn and therefore the box should be the highlight color
                 if (boolValue == boolParameter)
                 {
                     return new SolidColorBrush(Color.FromArgb(200, 255, 255, 70));

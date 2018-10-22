@@ -423,11 +423,11 @@ namespace PenteTests
         [TestMethod]
         public void FirstPlayer_FirstMove_OnlyAbleToPlaceOnCenter()
         {
-            PenteController.StartGame();
+            PenteController.StartGame(playMode: PlayMode.MultiPlayer);
 
-            //Try to place piece somewhere other than the center
-            bool actual = PenteController.TakeTurn(0, 0);
-            bool expected = false;
+            // Makes sure that the piece placed in the center is the first players piece
+            PieceColor actual = PenteController.game.GetPieceAt(PenteController.boardCenter, PenteController.boardCenter);
+            PieceColor expected = PieceColor.Black;
 
             Assert.AreEqual(expected, actual);
         }
