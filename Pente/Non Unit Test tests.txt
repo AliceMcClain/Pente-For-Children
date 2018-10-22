@@ -42,5 +42,41 @@ Steps to Recreate:
   2) Click on a spot where there is a piece and see if a piece appears there
 Pass/Fail: PASS
 
+Testing for: Do the instruction works
+Steps to Recreate:
+  1) Start game
+  2) Click instruction button
+  3) See if a Instructions page pops up
+Pass/Fail: PASS
 
+Testing for: Only one instructions page popping up when clicking the instrucctiono button
+Steps to Recreate:
+  1) Start game
+  2) Click instruction button
+  3) See if a Instructions page pops up
+  4) Click on the instruction button again
+  5) See if another page does not pop up
+Pass/Fail: PASS
 
+Testing for: Does the exit button work
+Steps to Recreate:
+  1) Start game
+  2) Click exit
+  3) See if the application closes
+Pass/Fail: PASS
+
+Testing for: Does the main menu button work in game
+Steps to Recreate:
+  1) Start game
+  2) Click on a game type
+  3) Click on the main menu
+  4) See if the page goes back to the main menu
+Pass/Fail: PASS
+
+Testing for: Does slider for the board size work
+Steps to Recreate:
+  1) Start game
+  2) Slide the slider to 9
+  3) Click on a game type
+  4) See if the board size changes
+Pass/Fail: PASS
